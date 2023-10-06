@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "hashtable.h"
+#include "mysync.h"
 
 //  RESEARCH SHOWS THAT USING PRIME-NUMBERS CAN IMPROVE PERFORMANCE
 //  c.f.  https://www.quora.com/Why-should-the-size-of-a-hash-table-be-a-prime-number
