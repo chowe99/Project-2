@@ -1,10 +1,10 @@
-PROJECT =  mysync 
+PROJECT =  mysync
 HEADERS =  $(PROJECT).h
-OBJ     =  mysync.o patterns.o files.o directory.o glob2regex.o list.o hashtable.o
+OBJ     =  mysync.o patterns.o files.o readDir.o glob2regex.o list.o hashtable.o
 
 
 C11     =  cc -std=c11
-CFLAGS  =  -Wall -Werror 
+CFLAGS  =  -Wall -Werror
 
 
 $(PROJECT) : $(OBJ)
@@ -12,7 +12,7 @@ $(PROJECT) : $(OBJ)
 
 
 %.o : %.c $(HEADERS)
-	$(C11) $(CFLAGS) -c $<
+	$(C11) $(CFLAGS) -c $? $< $@
 
 clean:
 	rm -f $(PROJECT) $(OBJ)
