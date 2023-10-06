@@ -4,10 +4,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
-//#include <sys/param.h>
+#include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-//#include <unistd.h> //fine on wsl
+#include <unistd.h> 
 
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
@@ -30,12 +30,12 @@ extern char* i [];
 extern char *strdup(const char *);
 
 //FUNCTIONS FROM readDir.c
-
+extern void read_dir(char *dirname)
 
 
 
 //FUNCTIONS FROM files.c
-
+extern void add_File(char* filename, int modified, int permissions, char* dirname);
 //FUNCTIONS from glob2regex
 extern char *glob2regex(char *glob);
 //FUNCTIONS from patterns.c
