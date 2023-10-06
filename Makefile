@@ -8,11 +8,11 @@ CFLAGS  =  -Wall -Werror
 
 
 $(PROJECT) : $(OBJ)
-       $(C11) $(CFLAGS) -o $(PROJECT) $(OBJ) -lm
+	$(C11) $(CFLAGS) -o $(PROJECT) $(OBJ) -lm
 
 
 %.o : %.c $(HEADERS)
-       $(C11) $(CFLAGS) -c $<
+	$(C11) $(CFLAGS) -c $<
 
 clean:
-       rm -f $(PROJECT) $(OBJ)
+	rm -f $(PROJECT) $(OBJ)
