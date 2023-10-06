@@ -1,0 +1,9 @@
+mydir/
+mysync
+mysync.o 
+patterns.o 
+files.o
+directory.o
+glob2regex.o 
+list.o 
+hashtable.o
