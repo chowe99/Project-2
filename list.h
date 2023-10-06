@@ -1,15 +1,9 @@
-#include <stdbool.h>
-
-//  A HELPFUL PREPROCESSOR MACRO TO CHECK IF ALLOCATIONS WERE SUCCESSFUL
-#define CHECK_ALLOC(p) if(p == NULL) { perror(__func__); exit(EXIT_FAILURE); }
-
 
 //  OUR SIMPLE LIST DATATYPE - A DATA ITEM, AND A POINTER TO ANOTHER LIST
 typedef struct _list {
      char           *string;
      struct _list   *next;
 } LIST;
-
 
 //  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN list.c :
 

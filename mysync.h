@@ -18,7 +18,6 @@
 //GLOBAL VARIABLES
 extern int ndirs;
 extern int nfiles;
-
 extern char *argv0; //program name
 extern bool verbose; //true iff -v or -n provided 
 

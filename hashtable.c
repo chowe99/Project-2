@@ -41,7 +41,6 @@ HASHTABLE *hashtable_new(void)
 void hashtable_add(HASHTABLE *hashtable, char *string)
 {
     uint32_t h   = hash_string(string) % HASHTABLE_SIZE;    // choose list
-
     hashtable[h] = list_add(hashtable[h], string);
 }
 
