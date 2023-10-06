@@ -30,7 +30,7 @@ extern char* i [];
 extern char *strdup(const char *);
 
 //FUNCTIONS FROM readDir.c
-extern void read_dir(char *dirname)
+extern void read_dir(char *dirname);
 
 
 
