@@ -12,7 +12,7 @@ $(PROJECT) : $(OBJ)
 
 
 %.o : %.c $(HEADERS)
-	$(C11) $(CFLAGS) -c $? $< $@
+	$(C11) $(CFLAGS) -c $<
 
 clean:
 	rm -f $(PROJECT) $(OBJ)
