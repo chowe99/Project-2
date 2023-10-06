@@ -2,13 +2,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <sys/param.h>
+//#include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h> //fine on wsl
+//#include <unistd.h> //fine on wsl
 
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
@@ -20,13 +19,34 @@ extern int ndirs;
 extern int nfiles;
 extern char *argv0; //program name
 extern bool verbose; //true iff -v or -n provided 
+extern bool a;
+extern bool n;
+extern bool p;
+extern bool r;
+extern char* o [];
+extern char* i [];
 
 //EXTERNAL FUNCTIONS
 extern char *strdup(const char *);
 
-//FUNCTIONS FROM directories.c
+//FUNCTIONS FROM readDir.c
+
+
+
 
 //FUNCTIONS FROM files.c
+
+//FUNCTIONS from glob2regex
+extern char *glob2regex(char *glob);
+//FUNCTIONS from patterns.c
+extern bool includeFile(char* fileName); 
+//Takes each file of each directory,
+// and determines whether it should be included 
+//in the syncing process depending on the flags given
+//if a flag given: then include files starting with .
+//if -i flag given: check if string matches the expression
+//if -o flag given: check if string doesn't match the expression 
+
 
 //FUNCTIONS FROM ..other c files defined 
 //FROM list:
