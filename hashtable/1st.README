@@ -1,0 +1,13 @@
+
+To compile the list and hashtable implementations:
+
+	make
+
+To compare the list and hashtable execution times:
+
+	make compare
+
+To plot the list and hashtable execution times:
+
+	make plot
+	# then open the file plot.html in your browser
