@@ -36,6 +36,8 @@ extern void read_dir(char *dirname);
 
 //FUNCTIONS FROM files.c
 extern void add_File(char* filename, int modified, int permissions, char* dirname);
+extern void print_permissions(mode_t mode);
+extern void setPermissions(char *source, char *dest);
 //FUNCTIONS from glob2regex
 extern char *glob2regex(char *glob);
 //FUNCTIONS from patterns.c
@@ -52,7 +54,10 @@ extern bool includeFile(char* fileName);
 //FROM list:
     //  OUR SIMPLE LIST DATATYPE - A DATA ITEM, AND A POINTER TO ANOTHER LIST
     typedef struct _list {
-        char           *string;
+        char           *string; //filename
+        char           *dir_name;
+        int             modification;
+        mode_t permissions
         struct _list   *next;
     } LIST;
 
