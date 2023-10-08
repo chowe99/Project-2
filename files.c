@@ -31,7 +31,7 @@ void setPermissions(char *source, char *dest) {
     struct stat statBuffer;
     if (stat(sourceFile, &statBuffer) == -1) {
         perror("Error getting file permissions");
-        return 1;
+        exit(EXIT_FAILURE);
     }
 
     // Get the permissions from the stat structure
@@ -42,7 +42,7 @@ void setPermissions(char *source, char *dest) {
         struct stat newBuffer;
             if (stat(destination, &newBuffer) == -1) {
             perror("Error getting file permissions");
-            return 1;
+            exit(EXIT_FAILURE);
             }
             mode_t new = newBuffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
             printf("File permissions of %s\n", destination);
