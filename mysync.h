@@ -57,7 +57,7 @@ extern bool includeFile(char* fileName);
         char           *string; //filename
         char           *dir_name;
         int             modification;
-        mode_t permissions
+        mode_t permissions;
         struct _list   *next;
     } LIST;
 
