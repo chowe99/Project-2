@@ -4,8 +4,7 @@
 //  ON LINUX WE NEED TO PROTOTYPE THE (NON-STANDARD) strdup() FUNCTION 
 //  WHY?  https://stackoverflow.com/questions/32944390/what-is-the-rationale-for-not-including-strdup-in-the-c-standard
 
-#if	defined(__linux__)
-#endif
+
 
 //  ---------------------------------------------------------------------
 
@@ -19,7 +18,7 @@ LIST *list_new(void)
 bool list_find(LIST *list, char *wanted)
 {
     while(list != NULL) {
-	if(strcmp(list->string, wanted) == 0) {
+	if(strcmp(list->file, wanted) == 0) {
 	    return true;
 	}
 	list	= list->next;
@@ -30,7 +29,7 @@ bool list_find(LIST *list, char *wanted)
 //  ALLOCATE SPACE FOR A NEW LIST ITEM, TESTING THAT ALLOCATION SUCCEEDS
 LIST *list_new_item(char *newstring)
 {
-    LIST *new       = calloc(1, sizeof(LIST) );
+    LIST *new       = calloc(1, sizeof(LIST));
     CHECK_ALLOC(new);
     new->string     =  strdup(newstring);
     CHECK_ALLOC(new->string);
