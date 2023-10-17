@@ -24,8 +24,8 @@ extern bool a;
 extern bool n;
 extern bool p;
 extern bool r;
-extern char* o [];
-extern char* i [];
+extern char* o;
+extern char* i;
 extern char OPTLIST[10];
 
 
