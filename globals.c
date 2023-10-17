@@ -8,3 +8,34 @@ bool p;
 bool r = false;
 HASHTABLE *file_list;
 char OPTLIST[] = "ai:no:prv";
+
+void save_args(int argc, char *argv[]) {
+    argc--;
+    int c;
+    while ((c = getopt(argc, argv, OPTLIST)) != -1) {
+
+        switch (c) {
+            case 'a':
+            break;
+
+            case 'i':
+            break;
+
+            case 'n':
+            break;
+
+            case 'o':
+            break;
+
+            case 'p': 
+            break;
+
+            case 'r':
+            break;
+
+            case 'v':
+            break;
+
+        }
+    }
+}
