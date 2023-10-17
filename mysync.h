@@ -40,11 +40,11 @@ extern size_t   i_index;
 //FROM list:
 //  OUR SIMPLE LIST DATATYPE - A DATA ITEM, AND A POINTER TO ANOTHER LIST
 typedef struct _list {
-    char           *file_name; //filename
-    char           *dir_name;
+    char            *file_name; //filename
+    char            *dir_name;
     time_t          modification;
-    mode_t permissions;
-    struct _list   *next;
+    mode_t          permissions;
+    struct _list    *next;
 } LIST;
 
 //  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN list.c :
