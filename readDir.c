@@ -23,10 +23,11 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
         if (o_index > 0 && !is_match(dp->d_name, o, o_index)) {
             continue;
         }
-        if (!a) {
-            if (dp->d_name[0] == '.') {
-                continue;
-            }
+        if (!a && dp->d_name[0] == '.') {
+            continue;
+        }
+        if (n) {
+
         }
 
         struct stat info;
