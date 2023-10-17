@@ -25,6 +25,33 @@ void add_File(char *filename, char* dir_name) {
 
 }
 
+//Creates file if it doesn't exist, or overwrites it with the desired informatoin 
+void copy_text_file(char destination[], char source[])
+{
+    FILE        *fp_in   = fopen(source, "r");
+    FILE        *fp_out  = fopen(destination,  "w");
+//  ENSURE THAT OPENING BOTH FILES HAS BEEN SUCCESSFUL
+    if(fp_in != NULL && fp_out != NULL) {
+        char    line[BUFSIZ];
+
+        while( fgets(line, sizeof line, fp_in) != NULL) {  
+            if(fputs(line, fp_out) == EOF) {
+                printf("error copying file\n");
+                exit(EXIT_FAILURE);
+            }
+			printf("%s",line);
+        }
+    }
+	printf("Files haven't been opened\n");
+//  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
+    if(fp_in != NULL) {
+        fclose(fp_in);
+    }
+    if(fp_out != NULL) {
+        fclose(fp_out);
+    }
+}
+
 
 void print_permissions(mode_t mode) {
     printf("File Permissions: ");
@@ -71,7 +98,6 @@ void setPermissions(char *source, char *dest) {
     } else {
         perror("Error changing permissions");
     }
-
     printf("File permissions of %s\n", sourceFile);
     print_permissions(permissions);
 }

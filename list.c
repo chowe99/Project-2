@@ -42,14 +42,10 @@ LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirn
 //  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
 LIST *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname)
 {
-    if(list_find(list, filename)) {            // only add each item once
-        return list;
-    }
-    else {                                      // add new item to head of list
-        LIST *new   = list_new_item(filename, mtime, permissions,dirname );
+        LIST *new  = list_new_item(filename, mtime, permissions,dirname );
         new->next   = list;
         return new;
-    }
+
 }
 
 //  PRINT EACH ITEM (A STRING) IN A GIVEN LIST TO stdout
