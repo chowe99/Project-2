@@ -32,13 +32,14 @@ extern char* i[];
 extern size_t i_index;
 extern char OPTLIST[10];
 
-
 //EXTERNAL FUNCTIONS
 extern char *strdup(const char *);
 
+//FUNCTIONS FROM globals.c
+extern void save_args(int argc, char *argv[]);
+
 //FUNCTIONS FROM readDir.c
 extern void read_dir(char *dirname);
-
 
 
 //FUNCTIONS FROM files.c
