@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h> 
 #include <bits/getopt_core.h>
+#include <dirent.h>
 
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
