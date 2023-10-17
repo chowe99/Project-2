@@ -15,8 +15,10 @@ void copy_text_file(char destination[], char source[])
                 printf("error copying file\n");
                 exit(EXIT_FAILURE);
             }
+			printf("%s",line);
         }
     }
+	printf("Files haven't been opened\n");
 //  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
     if(fp_in != NULL) {
         fclose(fp_in);
@@ -31,6 +33,10 @@ void copy_text_file(char destination[], char source[])
 int main(int argc, char *argv[])
 {
 	file_list=hashtable_new(); //Initialises hashtable to be used 
+	char* destination = "/mnt/c/Users/rmhep/OneDrive/'2023 Sem 2'/test1.txt";
+	char* source = "/mnt/c/Users/rmhep/OneDrive/'2023 Sem 2'/test2.txt";
+	copy_text_file(destination, source);
+	printf("%s,%s", destination, source);
 
 	//To do:
 	//open file, and pass in the necessary info to file_add function call:
