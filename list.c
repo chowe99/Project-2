@@ -15,10 +15,11 @@ LIST *list_new(void)
 }
 
 //  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
+//Will be used to see if directory exists in the list 
 bool list_find(LIST *list, char *wanted)
 {
     while(list != NULL) {
-	if(strcmp(list->string, wanted) == 0) {
+	if(strcmp(list->file_name, wanted) == 0) {
 	    return true;
 	}
 	list	= list->next;
@@ -27,24 +28,25 @@ bool list_find(LIST *list, char *wanted)
 }
 
 //  ALLOCATE SPACE FOR A NEW LIST ITEM, TESTING THAT ALLOCATION SUCCEEDS
-LIST *list_new_item(char *newstring)
+//Must change, not a list of strings, list of structs 
+LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirname)
 {
     LIST *new       = calloc(1, sizeof(LIST));
     CHECK_ALLOC(new);
-    new->string     =  strdup(newstring);
-    CHECK_ALLOC(new->string);
+    new->file_name     =  strdup(filename);
+    CHECK_ALLOC(new->file_name);
     new->next       =  NULL;
     return new;
 }
 
 //  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
-LIST *list_add(LIST *list, char *newstring)
+LIST *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname)
 {
-    if(list_find(list, newstring)) {            // only add each item once
+    if(list_find(list, filename)) {            // only add each item once
         return list;
     }
     else {                                      // add new item to head of list
-        LIST *new   = list_new_item(newstring);
+        LIST *new   = list_new_item(filename, mtime, permissions,dirname );
         new->next   = list;
         return new;
     }
@@ -55,7 +57,7 @@ void list_print(LIST *list)
 {
     if(list != NULL) {
         while(list != NULL) {
-	    printf("%s", list->string);
+	    printf("%s", list->file_name);
 	    if(list->next != NULL) {
 	        printf(" -> ");
             }

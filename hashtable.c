@@ -31,30 +31,32 @@ HASHTABLE *hashtable_new(void)
 }
 
 //  ADD A NEW STRING TO A GIVEN HASHTABLE
-void hashtable_add(HASHTABLE *hashtable, char *string)
+void hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname)
 {
-    uint32_t h   = hash_string(string) % HASHTABLE_SIZE;    // choose list
-    hashtable[h] = list_add(hashtable[h], string);
+    uint32_t h   = hash_string(filename) % HASHTABLE_SIZE;    // choose list
+    hashtable[h] = list_add(hashtable[h], filename, mtime, permissions, dirname);
 }
 
 //  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
-bool hashtable_find(HASHTABLE *hashtable, char *string)
+bool hashtable_find(HASHTABLE *hashtable, char *filename)
 {
-    uint32_t h	= hash_string(string) % HASHTABLE_SIZE;     // choose list
-    return list_find(hashtable[h], string);
+    uint32_t h	= hash_string(filename) % HASHTABLE_SIZE;     // choose list
+    return list_find(hashtable[h], filename);
 }
 
 void test_hashtable()
 {
-    HASHTABLE *new = hashtable_new();
-    char* file1= "/mydir/test.txt";
-    hashtable_add(new, file1);
-    char* file2= "/mydir/test2.txt";
-    hashtable_add(new, file2);
+    //HASHTABLE *new = hashtable_new();
+    //char* file1= "/mydir/test.txt";
+    //hashtable_add(new, file1); to be edited
+    //char* file2= "/mydir/test2.txt";
+    //hashtable_add(new, file2); to be edited
+    /**
     if(hashtable_find(new,file1)) {
         printf("File 1 found: %s", file1);
     }
     else {
         printf("File %s not found", file1);
     }
+    */
 }

@@ -35,7 +35,7 @@ extern void read_dir(char *dirname);
 
 
 //FUNCTIONS FROM files.c
-extern void add_File(char* filename, int modified, int permissions, char* dirname);
+extern void add_File(char *filename);
 extern void print_permissions(mode_t mode);
 extern void setPermissions(char *source, char *dest);
 //FUNCTIONS from glob2regex
@@ -54,9 +54,9 @@ extern bool includeFile(char* fileName);
 //FROM list:
     //  OUR SIMPLE LIST DATATYPE - A DATA ITEM, AND A POINTER TO ANOTHER LIST
     typedef struct _list {
-        char           *string; //filename
+        char           *file_name; //filename
         char           *dir_name;
-        int             modification;
+        time_t          modification;
         mode_t permissions;
         struct _list   *next;
     } LIST;
@@ -65,9 +65,10 @@ extern bool includeFile(char* fileName);
 
     //  'CREATE' A NEW, EMPTY LIST
     extern	LIST	*list_new(void);
+    extern LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirname);
 
     //  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
-    extern	LIST	*list_add(  LIST *list, char *newstring);
+    extern	LIST	*list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname);
 
     //  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
     extern	bool	 list_find (LIST *list, char *wanted);
@@ -83,7 +84,7 @@ typedef	LIST * HASHTABLE;
 extern	HASHTABLE	*hashtable_new(void);
 extern void test_hashtable();
 //  ADD A NEW STRING TO A GIVEN HASHTABLE
-extern	void		 hashtable_add( HASHTABLE *, char *string);
+extern	void		 hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname);
 
 //  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
-extern	bool		 hashtable_find(HASHTABLE *, char *string);
+extern	bool		 hashtable_find(HASHTABLE *, char *filename);
