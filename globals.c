@@ -7,3 +7,4 @@ bool n;
 bool p;
 bool r = false;
 HASHTABLE *file_list;
+char OPTLIST[] = "ai:no:prv";
