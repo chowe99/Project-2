@@ -9,6 +9,7 @@
 #include <unistd.h> 
 #include <bits/getopt_core.h>
 #include <dirent.h>
+#include <regex.h>
 
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
@@ -24,8 +25,11 @@ extern bool a;
 extern bool n;
 extern bool p;
 extern bool r;
-extern char* o;
-extern char* i;
+extern bool v;
+extern char* o[];
+extern size_t o_index;
+extern char* i[];
+extern size_t i_index;
 extern char OPTLIST[10];
 
 
@@ -44,6 +48,8 @@ extern void setPermissions(char *source, char *dest);
 //FUNCTIONS from glob2regex
 extern char *glob2regex(char *glob);
 //FUNCTIONS from patterns.c
+extern bool is_match(char *filename, char *arr[], size_t num_items);
+
 extern bool includeFile(char* fileName); 
 //Takes each file of each directory,
 // and determines whether it should be included 
