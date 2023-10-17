@@ -30,7 +30,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
             perror(pathname);
             exit(EXIT_FAILURE);
         }
-        printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
+        // printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
         if (!hashtable_find(hashtable, dp->d_name)) {
             hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
         }
