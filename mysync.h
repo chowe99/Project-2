@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h> 
 #include <bits/getopt_core.h>
+#include <dirent.h>
 
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
@@ -23,8 +24,8 @@ extern bool a;
 extern bool n;
 extern bool p;
 extern bool r;
-extern char* o [];
-extern char* i [];
+extern char* o;
+extern char* i;
 extern char OPTLIST[10];
 
 
