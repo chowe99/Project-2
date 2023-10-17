@@ -23,6 +23,7 @@ int compare_mtime_descending(const void *v1, const void *v2)
 {
    LIST *f1 = (LIST *)v1;
    LIST *f2 = (LIST *)v2;
+   printf("Modification time of the first file is %li, and the modification time of the second is %li\n", f1->modification, f2->modification);
     if (f2->modification < f1->modification) return -1;
     if (f2->modification > f1->modification) return 1;
     return 0;
@@ -36,16 +37,14 @@ void copy_text_file(char destination[], char source[])
 //  ENSURE THAT OPENING BOTH FILES HAS BEEN SUCCESSFUL
     if(fp_in != NULL && fp_out != NULL) {
         char    line[BUFSIZ];
-
         while( fgets(line, sizeof line, fp_in) != NULL) {  
             if(fputs(line, fp_out) == EOF) {
                 printf("error copying file\n");
                 exit(EXIT_FAILURE);
             }
-			printf("%s",line);
         }
+        printf("Files have been opened and are not null\n");
     }
-	printf("Files haven't been opened\n");
 //  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
     if(fp_in != NULL) {
         fclose(fp_in);
