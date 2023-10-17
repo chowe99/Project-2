@@ -1,11 +1,9 @@
 #include "mysync.h"
 
-
 void copy_text_file(char destination[], char source[])
 {
     FILE        *fp_in   = fopen(source, "r");
     FILE        *fp_out  = fopen(destination,  "w");
-
 //  ENSURE THAT OPENING BOTH FILES HAS BEEN SUCCESSFUL
     if(fp_in != NULL && fp_out != NULL) {
         char    line[BUFSIZ];
@@ -33,9 +31,14 @@ void copy_text_file(char destination[], char source[])
 int main(int argc, char *argv[])
 {
 	file_list=hashtable_new(); //Initialises hashtable to be used 
-	char* destination = "/mnt/c/Users/rmhep/OneDrive/'2023 Sem 2'/test1.txt";
-	char* source = "/mnt/c/Users/rmhep/OneDrive/'2023 Sem 2'/test2.txt";
+	char* destination_point = "test1.txt";
+	char* source_point = "test2.txt";
+	char destination[100]; //To change to MAXPATHLEN 
+	char source[100];
+    sprintf(destination, "%s", destination_point);
+	sprintf(source, "%s", source_point);
 	copy_text_file(destination, source);
+	copy_text_file("test1.txt", "test2.txt");
 	printf("%s,%s", destination, source);
 
 	//To do:
