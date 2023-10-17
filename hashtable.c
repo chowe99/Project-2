@@ -35,9 +35,9 @@ void hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t pe
 {
     uint32_t h   = hash_string(filename) % HASHTABLE_SIZE;    // choose list
     hashtable[h] = list_add(hashtable[h], filename, mtime, permissions, dirname);
-    printf("File %s has been added to the hash table, at %i\n", filename, h);
+    printf("File '%s' has been added to the hash table, at %i\n", filename, h);
     LIST* store = hashtable[h];
-    printf("The information stored: mod_time: %s, filename %s\n", ctime(&store->modification), store->file_name); //mod time not being stored properly
+    printf("The information stored:\n\tmod_time: %s\tfilename '%s'\n", ctime(&store->modification), store->file_name); //mod time not being stored properly
 }
 
 //  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
