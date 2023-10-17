@@ -81,7 +81,7 @@ typedef	LIST * HASHTABLE;
 
 //  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
 extern	HASHTABLE	*hashtable_new(void);
-
+extern void test_hashtable();
 //  ADD A NEW STRING TO A GIVEN HASHTABLE
 extern	void		 hashtable_add( HASHTABLE *, char *string);
 

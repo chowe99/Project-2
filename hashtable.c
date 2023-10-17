@@ -26,7 +26,6 @@ uint32_t hash_string(char *string)
 HASHTABLE *hashtable_new(void)
 {
     HASHTABLE   *new = calloc(HASHTABLE_SIZE, sizeof(LIST *));
-
     CHECK_ALLOC(new);
     return new;
 }
@@ -42,6 +41,20 @@ void hashtable_add(HASHTABLE *hashtable, char *string)
 bool hashtable_find(HASHTABLE *hashtable, char *string)
 {
     uint32_t h	= hash_string(string) % HASHTABLE_SIZE;     // choose list
-
     return list_find(hashtable[h], string);
+}
+
+void test_hashtable()
+{
+    HASHTABLE *new = hashtable_new();
+    char* file1= "/mydir/test.txt";
+    hashtable_add(new, file1);
+    char* file2= "/mydir/test2.txt";
+    hashtable_add(new, file2);
+    if(hashtable_find(new,file1)) {
+        printf("File 1 found: %s", file1);
+    }
+    else {
+        printf("File %s not found", file1);
+    }
 }

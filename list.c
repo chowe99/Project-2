@@ -18,7 +18,7 @@ LIST *list_new(void)
 bool list_find(LIST *list, char *wanted)
 {
     while(list != NULL) {
-	if(strcmp(list->file, wanted) == 0) {
+	if(strcmp(list->string, wanted) == 0) {
 	    return true;
 	}
 	list	= list->next;
