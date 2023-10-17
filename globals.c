@@ -1,4 +1,5 @@
 #include "mysync.h"
+#include <stdlib.h>
 
 //to be filled in more
 //allocating space and initial values for global variables 
@@ -7,9 +8,9 @@ bool n = false;
 bool p = false;
 bool r = false;
 bool v = false;
-char *o[0];
+char **o = NULL;
 size_t o_index = 0;
-char *i[0];
+char **i = NULL;
 size_t i_index = 0;
 HASHTABLE *file_list;
 char OPTLIST[] = "ai:no:prv";
@@ -26,7 +27,7 @@ void save_args(int argc, char *argv[]) {
                 break;
 
             case 'i':
-                *i = realloc(i, (i_index+1) * sizeof(i[0]));
+                i = realloc(i, (i_index+1) * sizeof(i[0]));
                 i[i_index++] = optarg;
                 break;
 
@@ -35,7 +36,7 @@ void save_args(int argc, char *argv[]) {
                 break;
 
             case 'o':
-                *o = realloc(o, (o_index+1) * sizeof(o[0]));
+                o = realloc(o, (o_index+1) * sizeof(o[0]));
                 o[o_index++] = optarg;
                 break;
 

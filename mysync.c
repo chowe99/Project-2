@@ -1,29 +1,28 @@
 #include "mysync.h"
-#include <stdio.h>
 
 void copy_text_file(char destination[], char source[])
 {
     FILE        *fp_in   = fopen(source, "r");
     FILE        *fp_out  = fopen(destination,  "w");
-//  ENSURE THAT OPENING BOTH FILES HAS BEEN SUCCESSFUL
+    //  ENSURE THAT OPENING BOTH FILES HAS BEEN SUCCESSFUL
     if(fp_in != NULL && fp_out != NULL) {
-        char    line[BUFSIZ];
+	char    line[BUFSIZ];
 
-        while( fgets(line, sizeof line, fp_in) != NULL) {  
-            if(fputs(line, fp_out) == EOF) {
-                printf("error copying file\n");
-                exit(EXIT_FAILURE);
-            }
-			printf("%s",line);
-        }
+	while( fgets(line, sizeof line, fp_in) != NULL) {  
+	    if(fputs(line, fp_out) == EOF) {
+		printf("error copying file\n");
+		exit(EXIT_FAILURE);
+	    }
+	    printf("%s",line);
+	}
     }
-	printf("Files haven't been opened\n");
-//  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
+    printf("Files haven't been opened\n");
+    //  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
     if(fp_in != NULL) {
-        fclose(fp_in);
+	fclose(fp_in);
     }
     if(fp_out != NULL) {
-        fclose(fp_out);
+	fclose(fp_out);
     }
 }
 
@@ -48,8 +47,8 @@ int main(int argc, char *argv[])
     //void add_File(char* filename, time_t mtime, mode_t permissions, char* dirname)  
     //test_hashtable(); for testing purposes later
     save_args(argc, argv);
-    printf("a: %b, i: %zu, n: %b, o: %zu, p: %b, r: %b, v: %b", a, i_index, n, o_index, p, r, v);
-    read_dir(argv[1]);
+    printf("a: %d, i: %zu, n: %d, o: %zu, p: %d, r: %d, v: %d\n", a, i_index, n, o_index, p, r, v);
+    read_dir(destination);
     return EXIT_SUCCESS;
 }
 

@@ -7,3 +7,4 @@ glob2regex.o
 list.o 
 hashtable.o
 readDir.o
+test*

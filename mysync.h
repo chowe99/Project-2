@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -10,6 +11,8 @@
 #include <bits/getopt_core.h>
 #include <dirent.h>
 #include <regex.h>
+#include <time.h>
+#include <fcntl.h>
 
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
@@ -26,9 +29,9 @@ extern bool n;
 extern bool p;
 extern bool r;
 extern bool v;
-extern char* o[];
+extern char **o;
 extern size_t o_index;
-extern char* i[];
+extern char **i;
 extern size_t i_index;
 extern char OPTLIST[10];
 

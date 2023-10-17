@@ -26,6 +26,6 @@ void read_dir(char *dirname) {
             perror(pathname);
             exit(EXIT_FAILURE);
         }
-        printf("modified: %ld\n", info.st_mtim.tv_sec);
+        printf("%s m_tim: %ld\n", pathname, info.st_mtim.tv_sec);
     }
 }
