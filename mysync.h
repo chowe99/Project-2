@@ -65,7 +65,7 @@ extern int compare_mtime_descending(const void *v1, const void *v2);
 typedef	LIST * HASHTABLE;
 extern HASHTABLE *file_list;
 //  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN hashtable.c :
-
+uint32_t hash_string(char *string);
 //  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
 extern	HASHTABLE	*hashtable_new(void);
 extern void test_hashtable();
