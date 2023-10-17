@@ -30,6 +30,8 @@ void copy_text_file(char destination[], char source[])
 
 int main(int argc, char *argv[])
 {
+	file_list=hashtable_new(); //Initialises hashtable to be used 
+
 	//To do:
 	//open file, and pass in the necessary info to file_add function call:
 	//new version: add_File(char *filename);
@@ -37,3 +39,5 @@ int main(int argc, char *argv[])
 	//test_hashtable(); for testing purposes later
 	return EXIT_SUCCESS;
 }
+
+
