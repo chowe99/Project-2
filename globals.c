@@ -6,3 +6,4 @@ bool a;
 bool n;
 bool p;
 bool r = false;
+HASHTABLE *file_list;

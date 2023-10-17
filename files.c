@@ -1,6 +1,30 @@
 #include "mysync.h"
 
 //Tested on kali linux 
+//Filename needs to be the path to the file 
+//Directory name: full path minus the /filename
+//int modified: the time modified 
+void add_File(char *filename, char* dir_name) {
+  struct stat  stat_buffer;
+  //Attempt to stat file's attributes
+  if(stat(filename, &stat_buffer) != 0) {
+    perror(filename);
+    exit(EXIT_FAILURE);
+  }
+  else if(S_ISREG( stat_buffer.st_mode ) ) {
+    //Gets required information
+    mode_t permissions = stat_buffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO); //set permissions
+    time_t mod_time=stat_buffer.st_mtime;
+    hashtable_add(file_list, filename, mod_time, permissions, dir_name);
+  }
+    
+//If file name not found, add to hashtable
+//Search based on filename 
+//if filename found in hash table, then given the hashtable element found, add the a new element to the associated list
+//pass in  
+
+}
+
 
 void print_permissions(mode_t mode) {
     printf("File Permissions: ");
@@ -26,17 +50,14 @@ void print_permissions(mode_t mode) {
 void setPermissions(char *source, char *dest) {
     const char *sourceFile = source; // Path to the source file
     char *destination = dest;
-
     // Retrieve file permissions of the source file
     struct stat statBuffer;
     if (stat(sourceFile, &statBuffer) == -1) {
         perror("Error getting file permissions");
         exit(EXIT_FAILURE);
     }
-
     // Get the permissions from the stat structure
     mode_t permissions = statBuffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
-
     if (chmod(destination, permissions) == 0) {
         printf("Permissions changed successfully.\n");
         struct stat newBuffer;

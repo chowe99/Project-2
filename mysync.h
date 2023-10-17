@@ -26,6 +26,7 @@ extern bool r;
 extern char* o [];
 extern char* i [];
 
+
 //EXTERNAL FUNCTIONS
 extern char *strdup(const char *);
 
@@ -35,7 +36,7 @@ extern void read_dir(char *dirname);
 
 
 //FUNCTIONS FROM files.c
-extern void add_File(char *filename);
+extern void add_File(char *filename, char* dir_name);
 extern void print_permissions(mode_t mode);
 extern void setPermissions(char *source, char *dest);
 //FUNCTIONS from glob2regex
@@ -78,6 +79,7 @@ extern bool includeFile(char* fileName);
 //FROM hashtable
 //  WE DEFINE A HASHTABLE AS A (WILL BE, DYNAMICALLY ALLOCATED) ARRAY OF LISTs
 typedef	LIST * HASHTABLE;
+extern HASHTABLE *file_list;
 //  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN hashtable.c :
 
 //  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
