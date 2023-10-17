@@ -88,6 +88,7 @@ extern bool includeFile(char* fileName);
 
     //  PRINT EACH ITEM (A STRING) IN A GIVEN LIST TO stdout
     extern	void	 list_print(LIST *list);
+    extern int compare_mtime_descending(const void *v1, const void *v2);
 //FROM hashtable
 //  WE DEFINE A HASHTABLE AS A (WILL BE, DYNAMICALLY ALLOCATED) ARRAY OF LISTs
 typedef	LIST * HASHTABLE;

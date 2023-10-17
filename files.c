@@ -17,12 +17,15 @@ void add_File(char *filename, char* dir_name) {
     time_t mod_time=stat_buffer.st_mtime;
     hashtable_add(file_list, filename, mod_time, permissions, dir_name);
   }
-    
-//If file name not found, add to hashtable
-//Search based on filename 
-//if filename found in hash table, then given the hashtable element found, add the a new element to the associated list
-//pass in  
+}
 
+int compare_mtime_descending(const void *v1, const void *v2)
+{
+   LIST *f1 = (LIST *)v1;
+   LIST *f2 = (LIST *)v2;
+    if (f2->modification < f1->modification) return -1;
+    if (f2->modification > f1->modification) return 1;
+    return 0;
 }
 
 //Creates file if it doesn't exist, or overwrites it with the desired informatoin 
