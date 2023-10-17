@@ -9,10 +9,8 @@ bool is_match(char *filename, char *arr[], size_t num_items) {
         }
         if (regexec(&reegex, filename, 0, NULL, 0) == 0)
         {
-            printf("found match\n");
             return true;
         }
     }
-    printf("no match\n");
     return false;
 }

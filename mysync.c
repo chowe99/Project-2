@@ -12,6 +12,10 @@ int main(int argc, char *argv[])
     //test_hashtable(); for testing purposes later
     save_args(argc, argv);
     printf("a: %d, i: %zu, n: %d, o: %zu, p: %d, r: %d, v: %d\n", a, i_index, n, o_index, p, r, v);
+    for (int i = optind; i<argc; i++) {
+        read_dir(file_list, argv[i]);
+    }
+    free(file_list);
     return EXIT_SUCCESS;
 }
 

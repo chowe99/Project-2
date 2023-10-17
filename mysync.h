@@ -14,6 +14,7 @@
 #include <time.h>
 #include <fcntl.h>
 
+#define OPTS   "ai:no:prv"
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
                             fprintf(stderr, "cannot allocate memory\n");\
@@ -33,16 +34,55 @@ extern char **o;
 extern size_t o_index;
 extern char **i;
 extern size_t i_index;
-extern char OPTLIST[10];
+//FUNCTIONS FROM ..other c files defined 
+//FROM list:
+//  OUR SIMPLE LIST DATATYPE - A DATA ITEM, AND A POINTER TO ANOTHER LIST
+typedef struct _list {
+    char           *file_name; //filename
+    char           *dir_name;
+    time_t          modification;
+    mode_t permissions;
+    struct _list   *next;
+} LIST;
+
+//  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN list.c :
+
+//  'CREATE' A NEW, EMPTY LIST
+extern	LIST	*list_new(void);
+extern LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirname);
+
+//  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
+extern	LIST	*list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname);
+
+//  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
+extern	bool	 list_find (LIST *list, char *wanted);
+
+//  PRINT EACH ITEM (A STRING) IN A GIVEN LIST TO stdout
+extern	void	 list_print(LIST *list);
+extern int compare_mtime_descending(const void *v1, const void *v2);
+//FROM hashtable
+//  WE DEFINE A HASHTABLE AS A (WILL BE, DYNAMICALLY ALLOCATED) ARRAY OF LISTs
+typedef	LIST * HASHTABLE;
+extern HASHTABLE *file_list;
+//  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN hashtable.c :
+
+//  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
+extern	HASHTABLE	*hashtable_new(void);
+extern void test_hashtable();
+//  ADD A NEW STRING TO A GIVEN HASHTABLE
+extern	void		 hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname);
+
+//  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
+extern	bool		 hashtable_find(HASHTABLE *, char *filename);
 
 //EXTERNAL FUNCTIONS
 extern char *strdup(const char *);
 
 //FUNCTIONS FROM globals.c
-extern void save_args(int argc, char *argv[]);
+extern int save_args(int argc, char *argv[]);
 
 //FUNCTIONS FROM readDir.c
-extern void read_dir(char *dirname);
+extern void read_dir(HASHTABLE *hashtable, char *dirname);
 
 
 //FUNCTIONS FROM files.c
@@ -63,43 +103,4 @@ extern bool includeFile(char* fileName);
 //if -o flag given: check if string doesn't match the expression 
 
 
-//FUNCTIONS FROM ..other c files defined 
-//FROM list:
-    //  OUR SIMPLE LIST DATATYPE - A DATA ITEM, AND A POINTER TO ANOTHER LIST
-    typedef struct _list {
-        char           *file_name; //filename
-        char           *dir_name;
-        time_t          modification;
-        mode_t permissions;
-        struct _list   *next;
-    } LIST;
 
-    //  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN list.c :
-
-    //  'CREATE' A NEW, EMPTY LIST
-    extern	LIST	*list_new(void);
-    extern LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirname);
-
-    //  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
-    extern	LIST	*list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname);
-
-    //  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
-    extern	bool	 list_find (LIST *list, char *wanted);
-
-    //  PRINT EACH ITEM (A STRING) IN A GIVEN LIST TO stdout
-    extern	void	 list_print(LIST *list);
-    extern int compare_mtime_descending(const void *v1, const void *v2);
-//FROM hashtable
-//  WE DEFINE A HASHTABLE AS A (WILL BE, DYNAMICALLY ALLOCATED) ARRAY OF LISTs
-typedef	LIST * HASHTABLE;
-extern HASHTABLE *file_list;
-//  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN hashtable.c :
-
-//  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
-extern	HASHTABLE	*hashtable_new(void);
-extern void test_hashtable();
-//  ADD A NEW STRING TO A GIVEN HASHTABLE
-extern	void		 hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname);
-
-//  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
-extern	bool		 hashtable_find(HASHTABLE *, char *filename);

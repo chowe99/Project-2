@@ -8,3 +8,5 @@ list.o
 hashtable.o
 readDir.o
 test*
+mydir2/
+globals.o

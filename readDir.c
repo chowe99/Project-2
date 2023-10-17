@@ -1,6 +1,10 @@
 #include "mysync.h"
 
-void read_dir(char *dirname) {
+/** takes a hashtable and saves a directory to it
+ * if the directory is not already present.
+ *
+ */
+void read_dir(HASHTABLE *hashtable, char *dirname) {
     DIR *dirp;
     struct dirent *dp;
 
@@ -26,6 +30,10 @@ void read_dir(char *dirname) {
             perror(pathname);
             exit(EXIT_FAILURE);
         }
-        printf("%s m_tim: %ld\n", pathname, info.st_mtim.tv_sec);
+        printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
+        if (!hashtable_find(hashtable, dp->d_name)) {
+            hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+        }
+        
     }
 }
