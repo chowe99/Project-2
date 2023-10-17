@@ -2,13 +2,14 @@
 
 //to be filled in more
 //allocating space and initial values for global variables 
-bool a;
-bool n;
-bool p;
+bool a = false;
+bool n = false;
+bool p = false;
 bool r = false;
-char *o;
+bool v = false;
+char *o[0];
 size_t o_index = 0;
-char *i;
+char *i[0];
 size_t i_index = 0;
 HASHTABLE *file_list;
 char OPTLIST[] = "ai:no:prv";
@@ -16,33 +17,44 @@ char OPTLIST[] = "ai:no:prv";
 void save_args(int argc, char *argv[]) {
     argc--;
     int c;
-    while ((c = getopt(argc, argv, OPTLIST)) != -1) {
-
-        switch (c) {
+    while ((c = getopt(argc, argv, OPTLIST)) != -1) 
+    {
+        switch (c) 
+        {
             case 'a':
-            break;
+                a = true;
+                break;
 
             case 'i':
-                i_index++; 
-                *i = realloc(i, i_index * sizeof(i[0]));
-                
-            break;
+                *i = realloc(i, (i_index+1) * sizeof(i[0]));
+                i[i_index++] = optarg;
+                break;
 
             case 'n':
-            break;
+                n = true;
+                break;
 
             case 'o':
-            break;
+                *o = realloc(o, (o_index+1) * sizeof(o[0]));
+                o[o_index++] = optarg;
+                break;
 
             case 'p': 
-            break;
+                p = true;
+                break;
+
 
             case 'r':
-            break;
+                r = true;
+                break;
 
             case 'v':
-            break;
+                v = true;
+                break;
 
+            default:
+                break;
+            
         }
     }
 }
