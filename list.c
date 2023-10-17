@@ -4,8 +4,6 @@
 //  ON LINUX WE NEED TO PROTOTYPE THE (NON-STANDARD) strdup() FUNCTION 
 //  WHY?  https://stackoverflow.com/questions/32944390/what-is-the-rationale-for-not-including-strdup-in-the-c-standard
 
-
-
 //  ---------------------------------------------------------------------
 
 //  'CREATE' A NEW, EMPTY LIST - JUST A NULL POINTER
@@ -35,6 +33,9 @@ LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirn
     CHECK_ALLOC(new);
     new->file_name     =  strdup(filename);
     CHECK_ALLOC(new->file_name);
+    new->modification = mtime;
+    new->permissions = permissions;
+    new->dir_name = dirname;
     new->next       =  NULL;
     return new;
 }
@@ -42,6 +43,7 @@ LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirn
 //  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
 LIST *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname)
 {
+    //check if null, if so create null pointer to point to 
         LIST *new  = list_new_item(filename, mtime, permissions,dirname );
         new->next   = list;
         return new;

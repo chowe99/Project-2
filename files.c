@@ -15,6 +15,7 @@ void add_File(char *filename, char* dir_name) {
     //Gets required information
     mode_t permissions = stat_buffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO); //set permissions
     time_t mod_time=stat_buffer.st_mtime;
+    printf("mod time: %i\n", (int)mod_time); //mod time here is correct
     hashtable_add(file_list, filename, mod_time, permissions, dir_name);
   }
 }
@@ -24,8 +25,14 @@ int compare_mtime_descending(const void *v1, const void *v2)
    LIST *f1 = (LIST *)v1;
    LIST *f2 = (LIST *)v2;
    printf("Modification time of the first file is %li, and the modification time of the second is %li\n", f1->modification, f2->modification);
-    if (f2->modification < f1->modification) return -1;
-    if (f2->modification > f1->modification) return 1;
+    if (f2->modification < f1->modification) {
+      printf("File %s is bigger", f1->file_name );
+      return -1;
+    }
+    if (f2->modification > f1->modification) {
+printf("File %s is bigger", f2->file_name );
+    return 1;
+    }
     return 0;
 }
 
