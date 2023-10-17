@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -8,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h> 
+#include <bits/getopt_core.h>
 
 
 #define CHECK_ALLOC(p) if(p==NULL) {\
