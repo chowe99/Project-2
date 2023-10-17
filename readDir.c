@@ -1,6 +1,8 @@
 #include "mysync.h"
 #include <stdio.h>
 #include <string.h>
+#include <sys/param.h>
+#include <unistd.h>
 
 /** takes a hashtable and saves a directory to it
  * if the directory is not already present.
@@ -28,7 +30,6 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
             continue;
         }
 
-
         struct stat info;
         char pathname[MAXPATHLEN];
         sprintf(pathname, "%s/%s", dirname, dp->d_name); 
@@ -50,6 +51,34 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
                 hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
                 printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
             }
+        }
+    }
+}
+
+void sync_directories(HASHTABLE *hashtable, char *dirname) {
+    DIR *dirp;
+    struct dirent *dp;
+
+    dirp = opendir(dirname);
+    if (dirp == NULL) {
+        perror(dirname);
+        exit(EXIT_FAILURE);
+    }
+
+    while ( (dp = readdir(dirp)) != NULL) 
+    {
+        if (hashtable_find(hashtable, dp->d_name)) {
+            char file[MAXPATHLEN];
+            sprintf(file, "%s/%s", dirname, dp->d_name); 
+            int fd = fileno(fopen(file, "w"));
+
+            memset(file, 0, MAXPATHLEN);
+            sprintf(file, "%s/%s", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name, dp->d_name);
+            FILE *latest = fopen(file, "r");
+            write(fd, latest, sizeof(*latest));
+
+            fclose(latest);
+            close(fd);
         }
     }
 }

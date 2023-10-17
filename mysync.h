@@ -36,6 +36,7 @@ extern char     **o;
 extern size_t   o_index;
 extern char     **i;
 extern size_t   i_index;
+extern char     **files_to_sync;
 //FUNCTIONS FROM ..other c files defined 
 //FROM list:
 //  OUR SIMPLE LIST DATATYPE - A DATA ITEM, AND A POINTER TO ANOTHER LIST
@@ -85,7 +86,7 @@ extern int          save_args(int argc, char *argv[]);
 
 //FUNCTIONS FROM readDir.c
 extern void         read_dir(HASHTABLE *hashtable, char *dirname);
-
+extern void         sync_directories(HASHTABLE *hashtable, char *dirname); 
 
 //FUNCTIONS FROM files.c
 extern void         add_File(char *filename, char* dir_name);

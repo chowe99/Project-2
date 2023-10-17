@@ -15,6 +15,10 @@ int main(int argc, char *argv[])
     for (int i = optind; i<argc; i++) {
         read_dir(file_list, argv[i]);
     }
+    for (int i = optind; i<argc; i++) {
+       sync_directories(file_list, argv[i]); 
+    }
+
     free(file_list);
     return EXIT_SUCCESS;
 }
