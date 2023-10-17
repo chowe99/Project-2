@@ -1,4 +1,5 @@
 #include "mysync.h"
+#include <stdio.h>
 #include <string.h>
 
 /** takes a hashtable and saves a directory to it
@@ -26,9 +27,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
         if (!a && dp->d_name[0] == '.') {
             continue;
         }
-        if (n) {
 
-        }
 
         struct stat info;
         char pathname[MAXPATHLEN];
@@ -39,8 +38,18 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
         }
         // printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
         if (!hashtable_find(hashtable, dp->d_name)) {
-            hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+            if (n) {
+                printf("%-10s\tneeds to be synchronized\n", dp->d_name);
+            } else {
+                hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+            }
+        } else {
+            if (hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification < info.st_mtim.tv_sec) {
+                printf("updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
+                printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
+                hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+                printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
+            }
         }
-        
     }
 }
