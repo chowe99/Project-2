@@ -47,7 +47,7 @@ void copy_text_file(char destination[], char source[])
     if(fp_in != NULL && fp_out != NULL) {
         char    line[BUFSIZ];
         while( fgets(line, sizeof line, fp_in) != NULL) { 
-          printf("%s", line); 
+          //printf("%s", line); 
             if(fputs(line, fp_out) == EOF) {
                 //printf("error copying file\n");
                 exit(EXIT_FAILURE);
@@ -104,9 +104,8 @@ void setPermissions(char *source, char *dest) {
             perror("Error getting file permissions");
             exit(EXIT_FAILURE);
             }
-            mode_t new = newBuffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
+            //mode_t new = newBuffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
             //printf("File permissions of %s\n", destination);
-            print_permissions(new);
     } else {
         perror("Error changing permissions");
     }

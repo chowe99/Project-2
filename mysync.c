@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
        }
    
     }
-
     free(file_list);
     return EXIT_SUCCESS;
 }

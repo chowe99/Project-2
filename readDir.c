@@ -15,48 +15,48 @@ int save_args(int argc, char *argv[]) {
         {
             case 'a':
                 a = true;
-                printf("found -a\n");
+                //printf("found -a\n");
                 break;
 
             case 'i':
-                printf("found -i: ");
+                //printf("found -i: ");
                 i = realloc(i, (i_index+1) * sizeof(i[0]));
                 i[i_index++] = strdup(optarg);
-                printf("%s\n", i[i_index-1]);
+                //printf("%s\n", i[i_index-1]);
                 break;
 
             case 'n':
-                printf("found -n\n");
+                //printf("found -n\n");
                 n = true;
                 break;
 
             case 'o':
-                printf("found -o\n");
+                //printf("found -o\n");
                 o = realloc(o, (o_index+1) * sizeof(o[0]));
                 o[o_index++] = strdup(optarg);
                 break;
 
             case 'p': 
-                printf("found -p\n");
+                //printf("found -p\n");
                 p = true;
                 break;
 
             case 'r':
-                printf("found -r\n");
+                //printf("found -r\n");
                 r = true;
                 break;
 
             case 'v':
-                printf("found -v\n");
+                //printf("found -v\n");
                 v = true;
                 break;
 
             case ':':
-                printf("option needs a value\n");
+                //printf("option needs a value\n");
                 break;
 
             case '?':
-                printf("unknown option: %c\n", optopt);
+                //printf("unknown option: %c\n", optopt);
                 break;
             
             default:
@@ -112,11 +112,13 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
         } else {
             //If the current file has been modified more recently, then add that 
             if (hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification < info.st_mtim.tv_sec) {
+                if(v){
                 printf("updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
-                printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
+                //printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
                 printf("name of file %s\n",dp->d_name);
+                }
                 hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
-                printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
+                //printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
             }
         }
     }
@@ -130,17 +132,20 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
              char source[MAXPATHLEN];
              char destination[MAXPATHLEN];
              sprintf(destination, "%s/%s", dirname, current->file_name);
-             printf("The path used for the file to be overwritten: %s\n", destination); //gets full path of the file in the current directory
+             //printf("The path used for the file to be overwritten: %s\n", destination); //gets full path of the file in the current directory
              sprintf(source, "%s/%s", current->dir_name, current->file_name); //gets full path of the most recently modified file stored in the hashtable
-             printf("The path used for the file to be copied over: %s\n", source);
-            printf("The most recently modified version of %s is in the path %s\n", current->file_name, source);
+             //printf("The path used for the file to be copied over: %s\n", source);
+            //printf("The most recently modified version of %s is in the path %s\n", current->file_name, source);
             if (strcmp(source, destination)==0){
-                printf("Same file don't need to copy\n");
+                //printf("Same file don't need to copy\n");
                 break;
             }
              copy_text_file(destination,source);
+             if(v) {
+                printf("File %s just copied to %s", source, destination);
+             }
              if(p) {
-                printf("Mod time and file permissions are being changed\n");
+                //printf("Mod time and file permissions are being changed\n");
                 setPermissions(source,destination);
                 setModTime(source,destination);
              }

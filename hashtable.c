@@ -34,12 +34,11 @@ HASHTABLE *hashtable_new(void)
 void hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname)
 {
     uint32_t h   = hash_string(filename) % HASHTABLE_SIZE;
-    if (hashtable==NULL) {
-        printf("hashtable is currently empty\n");
-    }    // choose list
     hashtable[h] = list_add(hashtable[h], filename, mtime, permissions, dirname);
+    if(v) {
     printf("File '%s' has been added to the hash table, at %i\n", filename, h);
-    printf("The information stored:\n\tmod_time: %s\tfilename: '%s'\n", ctime(&hashtable[h]->modification), hashtable[h]->file_name); //mod time not being stored properly
+    printf("The information stored:\n\tmod_time: %s\tfilename: '%s'\n", ctime(&hashtable[h]->modification), hashtable[h]->file_name);
+    } //mod time not being stored properly
 }
 
 //  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE

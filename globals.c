@@ -13,7 +13,3 @@ char        **i = NULL;
 size_t      i_index = 0;
 HASHTABLE   *file_list;
 
-/* checks command line options and saves them to corresponding
- * global variables, returns number of options found.
- * 
- */
