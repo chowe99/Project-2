@@ -4,6 +4,7 @@
 //Filename needs to be the path to the file 
 //Directory name: full path minus the /filename
 //int modified: the time modified 
+//Currently unused 
 void add_File(char *filename, char* dir_name) {
   struct stat  stat_buffer;
   //Attempt to stat file's attributes
@@ -20,7 +21,7 @@ void add_File(char *filename, char* dir_name) {
     hashtable_add(file_list, filename, mod_time, permissions, dir_name);
   }
 }
-
+//Potentially delete, or integrate into readDir function, currently unused 
 int compare_mtime_descending(const void *v1, const void *v2)
 {
    LIST *f1 = (LIST *)v1;
@@ -45,12 +46,13 @@ void copy_text_file(char destination[], char source[])
 //  ENSURE THAT OPENING BOTH FILES HAS BEEN SUCCESSFUL
     if(fp_in != NULL && fp_out != NULL) {
         char    line[BUFSIZ];
-        while( fgets(line, sizeof line, fp_in) != NULL) {  
+        while( fgets(line, sizeof line, fp_in) != NULL) { 
+          printf("%s", line); 
             if(fputs(line, fp_out) == EOF) {
-                printf("error copying file\n");
+                //printf("error copying file\n");
                 exit(EXIT_FAILURE);
             }
-            printf("copying underway\n");
+            //printf("copying underway\n");
         }
     }
 //  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
@@ -64,7 +66,7 @@ void copy_text_file(char destination[], char source[])
 
 
 void print_permissions(mode_t mode) {
-    printf("File Permissions: ");
+    //printf("File Permissions: ");
     
     // Owner's permissions
     printf((mode & S_IRUSR) ? "r" : "-");
@@ -80,8 +82,8 @@ void print_permissions(mode_t mode) {
     printf((mode & S_IROTH) ? "r" : "-");
     printf((mode & S_IWOTH) ? "w" : "-");
     printf((mode & S_IXOTH) ? "x" : "-");
-    
     printf("\n");
+    
 }
 
 void setPermissions(char *source, char *dest) {
@@ -96,18 +98,35 @@ void setPermissions(char *source, char *dest) {
     // Get the permissions from the stat structure
     mode_t permissions = statBuffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
     if (chmod(destination, permissions) == 0) {
-        printf("Permissions changed successfully.\n");
+        //printf("Permissions changed successfully.\n");
         struct stat newBuffer;
             if (stat(destination, &newBuffer) == -1) {
             perror("Error getting file permissions");
             exit(EXIT_FAILURE);
             }
             mode_t new = newBuffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
-            printf("File permissions of %s\n", destination);
+            //printf("File permissions of %s\n", destination);
             print_permissions(new);
     } else {
         perror("Error changing permissions");
     }
-    printf("File permissions of %s\n", sourceFile);
-    print_permissions(permissions);
+    //printf("File permissions of %s\n", sourceFile);
+}
+
+void setModTime(char *source, char *dest) {
+ // Path to the source file, change it to not be constant
+    struct stat source_stat;
+    if (stat(source, &source_stat) != 0) {
+          perror("Error getting file mod time");
+          exit(EXIT_FAILURE);
+    }
+
+    struct utimbuf new_times;
+    new_times.modtime = source_stat.st_mtime; // Modification time from the source file
+
+    if (utime(dest, &new_times) != 0) {
+        perror("Error setting modification time");
+        exit(EXIT_FAILURE);
+    } 
+
 }

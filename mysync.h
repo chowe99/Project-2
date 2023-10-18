@@ -13,6 +13,7 @@
 #include <regex.h>
 #include <time.h>
 #include <fcntl.h>
+#include <utime.h>
 
 #define	HASHTABLE_SIZE		997
 
@@ -57,6 +58,7 @@ extern LIST         *list_new_item(char* filename, time_t mtime, mode_t permissi
 //  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
 extern LIST	    *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname);
 extern void copy_text_file(char destination[], char source[]);
+extern void setModTime(char *source, char *dest);
 
 //  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
 extern bool	    list_find (LIST *list, char *wanted);
@@ -72,7 +74,6 @@ extern HASHTABLE    *file_list;
 extern uint32_t     hash_string(char *string);
 //  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
 extern HASHTABLE    *hashtable_new(void);
-extern void         test_hashtable();
 //  ADD A NEW STRING TO A GIVEN HASHTABLE
 extern void	    hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname);
 
@@ -88,7 +89,7 @@ extern int          save_args(int argc, char *argv[]);
 //FUNCTIONS FROM readDir.c
 extern void         read_dir(HASHTABLE *hashtable, char *dirname);
 extern void         sync_directories(HASHTABLE *hashtable, char *dirname); 
-
+extern void  printDir(char *dirname);
 //FUNCTIONS FROM files.c
 extern void         add_File(char *filename, char* dir_name);
 extern void         print_permissions(mode_t mode);

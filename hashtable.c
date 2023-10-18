@@ -49,19 +49,3 @@ bool hashtable_find(HASHTABLE *hashtable, char *filename)
     return list_find(hashtable[h], filename);
 }
 
-void test_hashtable()
-{
-    //HASHTABLE *new = hashtable_new();
-    //char* file1= "/mydir/test.txt";
-    //hashtable_add(new, file1); to be edited
-    //char* file2= "/mydir/test2.txt";
-    //hashtable_add(new, file2); to be edited
-    /**
-    if(hashtable_find(new,file1)) {
-        printf("File 1 found: %s", file1);
-    }
-    else {
-        printf("File %s not found", file1);
-    }
-    */
-}
