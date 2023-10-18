@@ -121,28 +121,18 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
 }
 //Notes: need to close directory afterwards
 void sync_directories(HASHTABLE *hashtable, char *dirname) {
-    DIR *dirp;
-    struct dirent *dp;
-
-    dirp = opendir(dirname);
-    if (dirp == NULL) {
-        perror(dirname);
-        exit(EXIT_FAILURE);
-    }
-
-    while ( (dp = readdir(dirp)) != NULL) 
-    {
-        if (hashtable_find(hashtable, dp->d_name)) {
-
+    for (int i = 0; i < HASHTABLE_SIZE; ++i) {
+        LIST *current = hashtable[i];
+        if(current != NULL) {
              char source[MAXPATHLEN];
              char destination[MAXPATHLEN];
-             sprintf(destination, "%s/%s", dirname, dp->d_name);
-             printf("The path used for the file to be overwritten: %s", destination); //gets full path of the file in the current directory
-             sprintf(source, "%s/%s", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name, hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->file_name); //gets full path of the most recently modified file stored in the hashtable
-             printf("The path used for the file to be copied over: %s", source);
+             sprintf(destination, "%s/%s", dirname, current->file_name);
+             printf("The path used for the file to be overwritten: %s\n", destination); //gets full path of the file in the current directory
+             sprintf(source, "%s/%s", current->dir_name, current->file_name); //gets full path of the most recently modified file stored in the hashtable
+             printf("The path used for the file to be copied over: %s\n", source);
              copy_text_file(destination,source);
         }
     }
-     closedir(dirp);
+
 }
 
