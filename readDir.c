@@ -138,9 +138,7 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
              char destination[MAXPATHLEN];
              sprintf(destination, "%s/%s", dirname, dp->d_name);
              printf("The path used for the file to be overwritten: %s", destination); //gets full path of the file in the current directory
-             hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name;
-             hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->file_name;
-             sprintf(source, "%s/%s", dir_name, file_name); //gets full path of the most recently modified file stored in the hashtable
+             sprintf(source, "%s/%s", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name, hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->file_name); //gets full path of the most recently modified file stored in the hashtable
              printf("The path used for the file to be copied over: %s", source);
              copy_text_file(destination,source);
         }

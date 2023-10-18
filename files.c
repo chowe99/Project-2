@@ -50,6 +50,7 @@ void copy_text_file(char destination[], char source[])
                 printf("error copying file\n");
                 exit(EXIT_FAILURE);
             }
+            printf("copying underway\n");
         }
     }
 //  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
