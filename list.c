@@ -76,3 +76,43 @@ void list_print(LIST *list)
 	printf("\n");
     }
 }
+
+void listAdd(char *filename) {
+    if(copy_files == NULL) {           // append to an empty list   
+        copy_files = malloc( sizeof(FILEITEM) );
+        if(copy_files == NULL) {
+            perror( __func__ );
+            exit(EXIT_FAILURE);
+        }
+        copy_files->filename  =  strdup(filename);
+        copy_files->next    =  NULL;
+    }
+    else {                       // append to an existing list
+        FILEITEM *p = copy_files;
+        while(p->next != NULL) { // walk to the end of the list  
+            p  =  p->next;
+        }
+        p->next = malloc( sizeof(FILEITEM) );
+        if(p->next == NULL) {
+            perror( __func__ );
+            exit(EXIT_FAILURE);
+        }
+        p          =  p->next;   // append after the last item
+        p->filename  =  strdup(filename);
+        p->next    =  NULL;
+    }
+}
+
+char* listIterate() {
+    static FILEITEM *current_file = NULL;
+    if (current_file == NULL) {
+        current_file = copy_files;
+    } else {
+        if (current_file->next != NULL) {
+            current_file = current_file->next;
+        } else {
+            return NULL; // No more items in the list
+        }
+    }
+    return current_file->filename;
+}

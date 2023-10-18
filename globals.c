@@ -12,4 +12,4 @@ size_t      o_index = 0;
 char        **i = NULL;
 size_t      i_index = 0;
 HASHTABLE   *file_list;
-
+FILEITEM *copy_files = NULL;

@@ -49,6 +49,14 @@ typedef struct _list {
     struct _list    *next;
 } LIST;
 
+ typedef struct _file {
+     char        *filename;
+     struct _file   *next;
+ } FILEITEM;
+
+extern FILEITEM *copy_files;
+
+
 //  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN list.c :
 
 //  'CREATE' A NEW, EMPTY LIST
@@ -59,7 +67,8 @@ extern LIST         *list_new_item(char* filename, time_t mtime, mode_t permissi
 extern LIST	    *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname);
 extern void copy_text_file(char destination[], char source[]);
 extern void setModTime(char *source, char *dest);
-
+extern void listAdd(char *filename);
+extern char* listIterate();
 //  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
 extern bool	    list_find (LIST *list, char *wanted);
 

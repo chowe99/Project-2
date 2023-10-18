@@ -108,6 +108,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
                 printf("%-10s\tneeds to be synchronized\n", dp->d_name);
             } else {
                 hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+                listAdd(dp->d_name);
             }
         } else {
             //If the current file has been modified more recently, then add that 
@@ -118,6 +119,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
                 printf("name of file %s\n",dp->d_name);
                 }
                 hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+                listAdd(dp->d_name);
                 //printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
             }
         }
@@ -125,9 +127,9 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
 }
 //Notes: need to close directory afterwards
 void sync_directories(HASHTABLE *hashtable, char *dirname) {
-    //Should be made more efficient
-    for (int i = 0; i < HASHTABLE_SIZE; ++i) {
-        LIST *current = hashtable[i];
+    char* filename;
+    while((filename = listIterate()) != NULL) {
+        LIST *current = hashtable[hash_string(filename) % HASHTABLE_SIZE];
         if(current != NULL) {
              char source[MAXPATHLEN];
              char destination[MAXPATHLEN];
