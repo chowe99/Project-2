@@ -133,28 +133,16 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
     while ( (dp = readdir(dirp)) != NULL) 
     {
         if (hashtable_find(hashtable, dp->d_name)) {
-            char file[MAXPATHLEN];
-            sprintf(file, "%s/%s", dirname, dp->d_name); 
-            int fd = fileno(fopen(file, "w"));
 
-            memset(file, 0, MAXPATHLEN);
-            sprintf(file, "%s/%s", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name, dp->d_name);
-            //if copying, can use copy_file function
-            /**
-             * Possible code:
-             * char source[MAXPATHLEN];
-             * char destination[MAXPATHLEN];
-             * sprintf(destination, "%s/%s", dirname, dp->d_name); //gets full path of the file in the current directory
-             * hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name;
-             * hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->file_name;
-             * sprintf(source, "%s/%s", dir_name, file_name); //gets full path of the most recently modified file stored in the hashtable
-             * copy_text_file(destination,file);
-            */
-            FILE *latest = fopen(file, "r");
-            write(fd, latest, sizeof(*latest));
-
-            fclose(latest);
-            close(fd);
+             char source[MAXPATHLEN];
+             char destination[MAXPATHLEN];
+             sprintf(destination, "%s/%s", dirname, dp->d_name);
+             printf("The path used for the file to be overwritten: %s", destination); //gets full path of the file in the current directory
+             hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name;
+             hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->file_name;
+             sprintf(source, "%s/%s", dir_name, file_name); //gets full path of the most recently modified file stored in the hashtable
+             printf("The path used for the file to be copied over: %s", source);
+             copy_text_file(destination,source);
         }
     }
      closedir(dirp);
