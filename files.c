@@ -7,11 +7,12 @@
 void add_File(char *filename, char* dir_name) {
   struct stat  stat_buffer;
   //Attempt to stat file's attributes
+  //should be full path 
   if(stat(filename, &stat_buffer) != 0) {
     perror(filename);
     exit(EXIT_FAILURE);
   }
-  else if(S_ISREG( stat_buffer.st_mode ) ) {
+  else if(S_ISREG(stat_buffer.st_mode ) ) {
     //Gets required information
     mode_t permissions = stat_buffer.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO); //set permissions
     time_t mod_time=stat_buffer.st_mtime;
@@ -50,7 +51,6 @@ void copy_text_file(char destination[], char source[])
                 exit(EXIT_FAILURE);
             }
         }
-        printf("Files have been opened and are not null\n");
     }
 //  ENSURE THAT WE ONLY CLOSE FILES THAT ARE OPEN
     if(fp_in != NULL) {

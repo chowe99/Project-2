@@ -25,6 +25,18 @@ bool list_find(LIST *list, char *wanted)
     return false;
 }
 
+bool dir_find(LIST *list, char *wanted)
+{
+    while(list != NULL) {
+	if(strcmp(list->dir_name, wanted) == 0) {
+	    return true;
+	}
+	list	= list->next;
+    }
+    return false;
+}
+
+
 //  ALLOCATE SPACE FOR A NEW LIST ITEM, TESTING THAT ALLOCATION SUCCEEDS
 //Must change, not a list of strings, list of structs 
 LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirname)

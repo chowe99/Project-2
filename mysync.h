@@ -56,6 +56,7 @@ extern LIST         *list_new_item(char* filename, time_t mtime, mode_t permissi
 
 //  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
 extern LIST	    *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname);
+extern void copy_text_file(char destination[], char source[]);
 
 //  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
 extern bool	    list_find (LIST *list, char *wanted);
@@ -98,6 +99,7 @@ extern char         *glob2regex(char *glob);
 extern bool         is_match(char *filename, char *arr[], size_t num_items);
 
 extern bool         includeFile(char* fileName); 
+extern bool dir_find(LIST *list, char *wanted);
 //Takes each file of each directory,
 // and determines whether it should be included 
 //in the syncing process depending on the flags given

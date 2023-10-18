@@ -38,6 +38,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
             exit(EXIT_FAILURE);
         }
         // printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
+
         if (!hashtable_find(hashtable, dp->d_name)) {
             if (n) {
                 printf("%-10s\tneeds to be synchronized\n", dp->d_name);
@@ -45,6 +46,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
                 hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
             }
         } else {
+            //If the current file has been modified more recently, then add that 
             if (hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification < info.st_mtim.tv_sec) {
                 printf("updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
                 printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
@@ -54,7 +56,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
         }
     }
 }
-
+//Notes: need to close directory afterwards
 void sync_directories(HASHTABLE *hashtable, char *dirname) {
     DIR *dirp;
     struct dirent *dp;
@@ -74,6 +76,17 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
 
             memset(file, 0, MAXPATHLEN);
             sprintf(file, "%s/%s", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name, dp->d_name);
+            //if copying, can use copy_file function
+            /**
+             * Possible code:
+             * char source[MAXPATHLEN];
+             * char destination[MAXPATHLEN];
+             * sprintf(destination, "%s/%s", dirname, dp->d_name); //gets full path of the file in the current directory
+             * hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name;
+             * hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->file_name;
+             * sprintf(source, "%s/%s", dir_name, file_name); //gets full path of the most recently modified file stored in the hashtable
+             * copy_text_file(destination,file);
+            */
             FILE *latest = fopen(file, "r");
             write(fd, latest, sizeof(*latest));
 
@@ -81,4 +94,6 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
             close(fd);
         }
     }
+     closedir(dirp);
 }
+
