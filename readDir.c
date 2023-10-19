@@ -111,7 +111,6 @@ int read_dir(HASHTABLE *hashtable, char *dirname) {
                     continue;
                 }
             } else {
-                file_count++;
                 continue;
             }
         } else {
@@ -166,7 +165,7 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
             }
              copy_text_file(destination,source);
              if(v) {
-                printf("File %s just copied to %s", source, destination);
+                printf("File %s just copied to %s\n", source, destination);
              }
              if(p) {
                 //printf("Mod time and file permissions are being changed\n");

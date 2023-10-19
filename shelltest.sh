@@ -16,7 +16,7 @@ tree dir1
 tree dir1/dir2
 echo "____________________________"
 #
-./mysync -r dir1 dir1/dir2
+./mysync -v -r dir1 dir1/dir2
 echo "after syncing:"
 tree dir1
 tree dir1/dir2

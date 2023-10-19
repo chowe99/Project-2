@@ -10,11 +10,13 @@ int main(int argc, char *argv[])
     for (int i = optind; i<argc; i++) {
         read_dir(file_list, argv[i]);
     }
+    printf("Printing arr:\n---\n");
+    printArray();
+    printf("---\n");
     for (int i = optind; i<argc; i++) {
         if(v) {
-        printf("Directory name about to be synced: %s", argv[i]);
+        printf("Directory name about to be synced: %s\n", argv[i]);
         }
-        
        sync_directories(file_list, argv[i]);
        if(v) {
         printf("Updated directory contents of %s\n", argv[i]);
