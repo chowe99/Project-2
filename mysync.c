@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
         if(v) {
         printf("Directory name about to be synced: %s", argv[i]);
         }
+        
        sync_directories(file_list, argv[i]);
        if(v) {
         printf("Updated directory contents of %s\n", argv[i]);

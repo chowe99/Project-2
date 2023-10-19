@@ -73,6 +73,7 @@ int save_args(int argc, char *argv[]) {
  *
  */
 int read_dir(HASHTABLE *hashtable, char *dirname) {
+    printf("reading: %s\n", dirname);
     DIR *dirp;
     struct dirent *dp;
 
@@ -123,6 +124,7 @@ int read_dir(HASHTABLE *hashtable, char *dirname) {
                 printf("%-10s\tneeds to be synchronized\n", dp->d_name);
             } else {
                 hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+                printf("adding: %s to hashtable\n", pathname);
                 nfiles+=1;
                 arrayAdd(dp->d_name);
             }
@@ -130,11 +132,12 @@ int read_dir(HASHTABLE *hashtable, char *dirname) {
             //If the current file has been modified more recently, then add that 
             if (hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification < info.st_mtim.tv_sec) {
                 if(v){
-                printf("updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
-                //printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
-                printf("name of file %s\n",dp->d_name);
+                    printf("updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
+                    //printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
+                    printf("name of file %s\n",dp->d_name);
                 }
                 hashtable_add(hashtable, dp->d_name, info.st_mtim.tv_sec, info.st_mode, dirname);
+                nfiles++;
                 printf("File %s added to list\n", dp->d_name);
                 //printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
             }
@@ -147,7 +150,7 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
     for (int i = 0; i < nfiles; ++i) {
         printf("File %d: %s\n", i + 1, filenames[i]);
         LIST *current = file_list[hash_string(filenames[i]) % HASHTABLE_SIZE];
-        printf("File to be copied %s from dir %s\n", current->file_name, current->dir_name);
+        //printf("File to be copied %s from dir %s\n", current->file_name, current->dir_name);
         if(current != NULL) {
              char source[MAXPATHLEN];
              char destination[MAXPATHLEN];
@@ -156,6 +159,7 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
              sprintf(source, "%s/%s", current->dir_name, current->file_name); //gets full path of the most recently modified file stored in the hashtable
              //printf("The path used for the file to be copied over: %s\n", source);
             //printf("The most recently modified version of %s is in the path %s\n", current->file_name, source);
+            printf("source: %s, destination: %s\n", source, destination);
             if (strcmp(source, destination)==0){
                 //printf("Same file don't need to copy\n");
                 continue;
