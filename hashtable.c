@@ -37,7 +37,7 @@ void hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t pe
     hashtable[h] = list_add(hashtable[h], filename, mtime, permissions, dirname);
     if(v) {
     printf("File '%s' has been added to the hash table, at %i\n", filename, h);
-    printf("The information stored:\n\tmod_time: %s\tfilename: '%s'\n", ctime(&hashtable[h]->modification), hashtable[h]->file_name);
+    printf("The information stored:\n\tmod_time: %s\tfilename: '%s'\n\tdir: '%s'\n", ctime(&hashtable[h]->modification), hashtable[h]->file_name, hashtable[h]->dir_name);
     } //mod time not being stored properly
 }
 
