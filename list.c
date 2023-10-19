@@ -58,6 +58,7 @@ LIST *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, cha
     //check if null, if so create null pointer to point to 
         LIST *new  = list_new_item(filename, mtime, permissions,dirname );
         new->next   = list;
+        list_print(new);
         return new;
 
 }
@@ -77,42 +78,36 @@ void list_print(LIST *list)
     }
 }
 
-void listAdd(char *filename) {
-    if(copy_files == NULL) {           // append to an empty list   
-        copy_files = malloc( sizeof(FILEITEM) );
-        if(copy_files == NULL) {
-            perror( __func__ );
-            exit(EXIT_FAILURE);
-        }
-        copy_files->filename  =  strdup(filename);
-        copy_files->next    =  NULL;
-    }
-    else {                       // append to an existing list
-        FILEITEM *p = copy_files;
-        while(p->next != NULL) { // walk to the end of the list  
-            p  =  p->next;
-        }
-        p->next = malloc( sizeof(FILEITEM) );
-        if(p->next == NULL) {
-            perror( __func__ );
-            exit(EXIT_FAILURE);
-        }
-        p          =  p->next;   // append after the last item
-        p->filename  =  strdup(filename);
-        p->next    =  NULL;
-    }
-}
 
-char* listIterate() {
-    static FILEITEM *current_file = NULL;
-    if (current_file == NULL) {
-        current_file = copy_files;
-    } else {
-        if (current_file->next != NULL) {
-            current_file = current_file->next;
-        } else {
-            return NULL; // No more items in the list
+void arrayAdd(char *filename) {
+        // Allocate memory for the new filename
+        char* newFilename = malloc(MAXPATHLEN);
+        if (newFilename == NULL) {
+            fprintf(stderr, "Memory allocation error\n");
+            exit(EXIT_FAILURE);
+        }
+        // Copy the filename to the allocated memory
+        strncpy(newFilename, filename, MAXPATHLEN - 1);
+        newFilename[MAXPATHLEN - 1] = '\0'; // Ensure null-termination
+
+        // Resize the array to accommodate the new filename
+        filenames = realloc(filenames, nfiles * sizeof(char*));
+        if (filenames == NULL) {
+            fprintf(stderr, "Memory reallocation error\n");
+            exit(EXIT_FAILURE);
+        }
+        // Add the new filename to the array
+        filenames[nfiles - 1] = newFilename;
+    }
+
+void printArray() {
+            for (int i = 0; i < nfiles; ++i) {
+            printf("File %d: %s\n", i + 1, filenames[i]);
         }
     }
-    return current_file->filename;
-}
+
+
+
+    
+
+    
