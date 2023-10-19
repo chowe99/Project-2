@@ -105,12 +105,13 @@ int read_dir(HASHTABLE *hashtable, char *dirname) {
         // printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
 
         if (S_ISDIR(info.st_mode)) {
-            if (!r) {
-                continue;
-            } else {
+            if (r) {
                 if (read_dir(hashtable, pathname) == 0) {
                     continue;
                 }
+            } else {
+                file_count++;
+                continue;
             }
         } else {
             file_count++;
