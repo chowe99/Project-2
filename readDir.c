@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/param.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 
@@ -71,7 +72,7 @@ int save_args(int argc, char *argv[]) {
  * if the directory is not already present.
  *
  */
-void read_dir(HASHTABLE *hashtable, char *dirname) {
+int read_dir(HASHTABLE *hashtable, char *dirname) {
     DIR *dirp;
     struct dirent *dp;
 
@@ -81,6 +82,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
         exit(EXIT_FAILURE);
     }
 
+    int file_count = 0;
     while ( (dp = readdir(dirp)) != NULL) 
     {
         if (i_index > 0 && is_match(dp->d_name, i, i_index)) {
@@ -92,7 +94,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
         if (!a && dp->d_name[0] == '.') {
             continue;
         }
-
+        
         struct stat info;
         char pathname[MAXPATHLEN];
         sprintf(pathname, "%s/%s", dirname, dp->d_name); 
@@ -101,6 +103,18 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
             exit(EXIT_FAILURE);
         }
         // printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
+
+        if (S_ISDIR(info.st_mode)) {
+            if (!r) {
+                continue;
+            } else {
+                if (read_dir(hashtable, pathname) == 0) {
+                    continue;
+                }
+            }
+        } else {
+            file_count++;
+        }
 
         if (!hashtable_find(hashtable, dp->d_name)) {
             if (n) {
@@ -125,6 +139,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
             }
         }
     }
+    return file_count;
 }
 //Notes: need to close directory afterwards
 void sync_directories(HASHTABLE *hashtable, char *dirname) {

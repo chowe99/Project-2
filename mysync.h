@@ -99,7 +99,7 @@ extern char         *strdup(const char *);
 extern int          save_args(int argc, char *argv[]);
 
 //FUNCTIONS FROM readDir.c
-extern void         read_dir(HASHTABLE *hashtable, char *dirname);
+extern int          read_dir(HASHTABLE *hashtable, char *dirname);
 extern void         sync_directories(HASHTABLE *hashtable, char *dirname); 
 extern void  printDir(char *dirname);
 //FUNCTIONS FROM files.c
