@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
         printf("Updated directory contents of %s\n", argv[i]);
         printDir(argv[i]);
        }
-   
     }
     free(file_list);
     return EXIT_SUCCESS;

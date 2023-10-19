@@ -129,6 +129,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname) {
 //Notes: need to close directory afterwards
 void sync_directories(HASHTABLE *hashtable, char *dirname) {
     for (int i = 0; i < nfiles; ++i) {
+        printf("File %d: %s\n", i + 1, filenames[i]);
         LIST *current = file_list[hash_string(filenames[i]) % HASHTABLE_SIZE];
         printf("File to be copied %s from dir %s\n", current->file_name, current->dir_name);
         if(current != NULL) {
@@ -141,7 +142,7 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
             //printf("The most recently modified version of %s is in the path %s\n", current->file_name, source);
             if (strcmp(source, destination)==0){
                 //printf("Same file don't need to copy\n");
-                break;
+                continue;
             }
              copy_text_file(destination,source);
              if(v) {
