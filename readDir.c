@@ -27,7 +27,7 @@ void add_missing_dirs(const char *subdirectories, const char *parentdir) {
     free(subdirs_copy); // Free the dynamically allocated memory
 }
 
-void remove_first_directory(char *path, char *dirname) {
+void process_path(char *path, char *dirname) {
 char *slash = strchr(path, '/');
     if (slash != NULL) {
         size_t length = slash - path;
@@ -38,44 +38,6 @@ char *slash = strchr(path, '/');
     //printf("New path %s, new directory %s", path, dirname);
     //printf("New path %s, new directory %s", path, dirname);
 }
-char* get_dir(char *path) {
-    char *slash = strchr(path, '/');
-    
-    // If a slash is found, calculate the length of the first directory
-    size_t length = (slash != NULL) ? (size_t)(slash - path) : strlen(path);
-    // Allocate memory for the new string
-    char *newpath = (char *)malloc(length + 1);
-    if (newpath == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
-    }
-    
-    // Copy the first directory to the new string
-    strncpy(newpath, path, length);
-    newpath[length] = '\0'; // Null-terminate the string
-    
-    return newpath;
-}
-
-char* get_path(char *path) {
-    char *slash = strchr(path, '/');
-    
-    // If a slash is found, move the pointer past the first directory
-    if (slash != NULL) {
-        path = slash + 1;
-    }
-    
-    // Allocate memory for the new string
-    char *newpath = strdup(path);
-    if (newpath == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
-    }
-    
-    return newpath;
-}
-
-
 
 /** takes a hashtable and saves a directory to it
  * if the directory is not already present.
@@ -125,7 +87,7 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
             sprintf(pathname, "%s/%s", dirname, dp->d_name);
             printf("Original pathname: %s\n", pathname);
             
-            remove_first_directory(pathname, dirname);
+            process_path(pathname, dirname);
             //printf("WITH PARENTDIR: %s\n", pathname);
             
         } else {

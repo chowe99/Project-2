@@ -71,58 +71,6 @@ extern void arrayAdd(char *filename);
 extern void printArray();
 
 //FUNCTIONS IN READDIR.C
-
-
-
-//FUNCTIONS IN FILES.C
-extern void copy_text_file(char destination[], char source[]);
-extern void print_permissions(mode_t mode);
-extern void setPermissions(char *source, char *dest);
-extern void setModTime(char *source, char *dest);
-
-
-//FUNCTIONS IN GLOBALS.C
-extern void save_args(int argc, char *argv[]);
-
-
-
-//  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN list.c :
-
-//  'CREATE' A NEW, EMPTY LIST
-
-
-
-//  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
-
-
-
-
-//  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
-
-
-//  PRINT EACH ITEM (A STRING) IN A GIVEN LIST TO stdout
-
-extern int          compare_mtime_descending(const void *v1, const void *v2);
-//FROM hashtable
-//  WE DEFINE A HASHTABLE AS A (WILL BE, DYNAMICALLY ALLOCATED) ARRAY OF LISTs
-
-//  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN hashtable.c :
-
-//  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
-
-//  ADD A NEW STRING TO A GIVEN HASHTABLE
-
-
-//  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
-
-
-//EXTERNAL FUNCTIONS
-extern char         *strdup(const char *);
-
-//FUNCTIONS FROM globals.c
-//commment
-
-//FUNCTIONS FROM readDir.c
 extern int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs);
 extern void sync_directories(HASHTABLE *hashtable, char *dirname); 
 extern void  printDir(char *dirname);
@@ -130,23 +78,20 @@ extern void add_missing_dirs(const char *subdirectories, const char *parentdir);
 extern void process_path(char *path, char *dirname);
 
 
-//FUNCTIONS FROM files.c
-extern void         add_File(char *filename, char* dir_name);
+//FUNCTIONS IN FILES.C
+extern void copy_text_file(char destination[], char source[]);
+extern void print_permissions(mode_t mode);
+extern void setPermissions(char *source, char *dest);
+extern void setModTime(char *source, char *dest);
+extern void add_File(char *filename, char* dir_name);
+
+//FUNCTIONS IN GLOBALS.C
+extern void save_args(int argc, char *argv[]);
+
+//EXTERNAL FUNCTIONS
+extern char         *strdup(const char *);
 
 
-//FUNCTIONS from glob2regex
-
-//FUNCTIONS from patterns.c
-
-
-extern bool         includeFile(char* fileName); 
-
-//Takes each file of each directory,
-// and determines whether it should be included 
-//in the syncing process depending on the flags given
-//if a flag given: then include files starting with .
-//if -i flag given: check if string matches the expression
-//if -o flag given: check if string doesn't match the expression 
 
 
 
