@@ -103,6 +103,8 @@ void arrayAdd(char *filename) {
 void printArray() {
             for (int i = 0; i < nfiles; ++i) {
             printf("File %d: %s \n", i + 1, filenames[i]);
+            LIST *current = file_list[hash_string(filenames[i]) % HASHTABLE_SIZE];
+            printf("Full path before syncing: %s/%s\n", current->dir_name, current->file_name);
         }
     }
 

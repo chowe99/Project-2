@@ -135,13 +135,14 @@ void add_missing_dirs1(const char *subdirectories, const char *parentdir) {
 }
 
 void remove_first_directory(char *path, char *dirname) {
-    char *slash = strchr(path, '/');
+char *slash = strchr(path, '/');
     if (slash != NULL) {
         size_t length = slash - path;
         strncpy(dirname, path, length);
         dirname[length] = '\0';  // Null-terminate the directory string
         memmove(path, slash + 1, strlen(slash));   // Move characters after slash one position to the left
     }
+    //printf("New path %s, new directory %s", path, dirname);
     //printf("New path %s, new directory %s", path, dirname);
 }
 
@@ -211,18 +212,26 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
                 hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
                 nfiles+=1;
                 arrayAdd(pathname);
+                                printf("current status:  \n");
+                    printf("Printing arr:\n---\n");
+    printArray();
+    printf("---\n");
             }
         } else {
             //If the current file has been modified more recently, then add that 
             if (hashtable[hash_string(pathname)%HASHTABLE_SIZE]->modification < info.st_mtim.tv_sec) {
                 if(v){
-                    // printf("updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(pathname)%HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
-                    //printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
-                    // printf("name of file %s\n", pathname);
+                    printf("updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(pathname)%HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
+                    printf("olddir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
+                     printf("name of file %s\n", pathname);
                 }
                 hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
                 //printf("ABS PATH: %s/%s\n", dirname, pathname);
                 nfiles++;
+                printf("current status:  \n");
+                    printf("Printing arr:\n---\n");
+    printArray();
+    printf("---\n");
                 // printf("File %s added to list with dir: %s\n", pathname, dirname);
                 //printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
             }
@@ -248,8 +257,8 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
 //printf("What's been passed to missing directories: %s, %s\n", dirname, current->file_name);
 //    char *slashPosition = strchr(inputString, '/');
     //if (slashPosition != NULL)
+                printf("Current directory name is %s, current file name is %s\n", current->dir_name, current->file_name);
             char *isDirectory = strchr(current->file_name, '/');
-            printf("Current directory name is %s, current file name is %s\n", current->dir_name, current->file_name);
             //If filename contains slash 
             if (isDirectory != NULL) {
             add_missing_dirs1(current->file_name, dirname);
