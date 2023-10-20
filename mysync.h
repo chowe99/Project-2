@@ -26,7 +26,6 @@
 
 //GLOBAL VARIABLES
 extern int      nfiles;
-extern bool     verbose; //true iff -v or -n provided 
 extern bool     a;
 extern bool     n;
 extern bool     p;
@@ -46,52 +45,49 @@ typedef struct _list {
     struct _list    *next;
 } LIST;
 
-extern char** filenames; //Pointer to an array of filenames that appear in the hashtable 
+extern	char	    **filenames; //Pointer to an array of filenames that appear in the hashtable 
 typedef	LIST        *HASHTABLE;
-extern HASHTABLE    *file_list;
+extern	HASHTABLE   *file_list;
 
 //FUNCTIONS IN GLOB2REGEX.C
-extern char *glob2regex(char *glob);
-extern bool is_match(char *filename, char *arr[], size_t num_items);
-extern bool skipEntry(char* filename);
+extern char	    *glob2regex(char *glob);
+extern bool	    is_match(char *filename, char *arr[], size_t num_items);
+extern bool	    skipEntry(char* filename);
 
 //FUNCTIONS IN HASHTABLE.C
-extern uint32_t hash_string(char *string);
-extern HASHTABLE *hashtable_new(void);
-extern void hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname);
-extern bool hashtable_find(HASHTABLE *, char *filename);
+extern uint32_t	    hash_string(char *string);
+extern HASHTABLE    *hashtable_new(void);
+extern void	    hashtable_add(HASHTABLE *hashtable, char *filename, \
+				  time_t mtime, mode_t permissions, char* dirname);
+extern bool	    hashtable_find(HASHTABLE *, char *filename);
 
 //FUNCTIONS IN LIST.C
-extern LIST *list_new(void);
-extern bool list_find (LIST *list, char *wanted);
-extern bool dir_find(LIST *list, char *wanted);
-extern LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirname);
-extern LIST *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname);
-extern void list_print(LIST *list);
-extern void arrayAdd(char *filename);
-extern void printArray();
+extern LIST	    *list_new(void);
+extern bool	    list_find (LIST *list, char *wanted);
+extern bool	    dir_find(LIST *list, char *wanted);
+extern LIST	    *list_new_item(char* filename, time_t mtime, \
+				    mode_t permissions, char* dirname);
+extern LIST	    *list_add(LIST *list, char* filename, time_t mtime,\
+			  mode_t permissions, char* dirname);
+extern void	    list_print(LIST *list);
+extern void	    arrayAdd(char *filename);
+extern void	    printArray();
 
 //FUNCTIONS IN READDIR.C
-extern void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs);
-extern void sync_directories(HASHTABLE *hashtable, char *dirname); 
-extern void  printDir(char *dirname);
-extern void add_missing_dirs(const char *subdirectories, const char *parentdir);
-extern void process_path(char *path, char *dirname);
-
+extern void	    read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs);
+extern void	    sync_directories(HASHTABLE *hashtable, char *dirname); 
+extern void	    printDir(char *dirname);
+extern void	    add_missing_dirs(const char *subdirectories, const char *parentdir);
+extern void	    process_path(char *path, char *dirname);
 
 //FUNCTIONS IN FILES.C
-extern void copy_text_file(char destination[], char source[]);
-extern void print_permissions(mode_t mode);
-extern void setPermissions(char *source, char *dest);
-extern void setModTime(char *source, char *dest);
+extern void	    copy_text_file(char destination[], char source[]);
+extern void	    print_permissions(mode_t mode);
+extern void	    setPermissions(char *source, char *dest);
+extern void	    setModTime(char *source, char *dest);
 
 //FUNCTIONS IN GLOBALS.C
-extern void save_args(int argc, char *argv[]);
+extern void	    save_args(int argc, char *argv[]);
 
 //EXTERNAL FUNCTIONS
 extern char         *strdup(const char *);
-
-
-
-
-
