@@ -31,6 +31,7 @@ int save_args(int argc, char *argv[]) {
             case 'n':
                 //printf("found -n\n");
                 n = true;
+                v = true;
                 break;
 
             case 'o':
