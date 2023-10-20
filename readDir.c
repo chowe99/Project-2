@@ -11,8 +11,11 @@ void add_missing_dirs(const char *subdirectories, const char *parentdir) {
     char *token = strtok(subdirs_copy, "/");
     char path[PATH_MAX]; // Assuming PATH_MAX is defined in your environment, it represents the maximum length of a file path
     // Iterate through subdirectories and create missing directories
+
+    snprintf(path, sizeof(path), "%s/", parentdir);
     while (token != NULL) {
-        snprintf(path, sizeof(path), "%s/%s", parentdir, token);
+
+        strcat(path, token);
         struct stat st = {0};
         printf("checking path %s\n", path);
         if (stat(path, &st) == -1) {
@@ -21,7 +24,7 @@ void add_missing_dirs(const char *subdirectories, const char *parentdir) {
             mkdir(path, 0777);
             //printf("Created directory: %s\n", path);
         }
-        parentdir = path; // Update parentdir for the next iteration
+        strcat(path, "/"); 
         token = strtok(NULL, "/");
     }
     free(subdirs_copy); // Free the dynamically allocated memory
