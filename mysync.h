@@ -84,7 +84,6 @@ extern void copy_text_file(char destination[], char source[]);
 extern void print_permissions(mode_t mode);
 extern void setPermissions(char *source, char *dest);
 extern void setModTime(char *source, char *dest);
-extern void add_File(char *filename, char* dir_name);
 
 //FUNCTIONS IN GLOBALS.C
 extern void save_args(int argc, char *argv[]);
