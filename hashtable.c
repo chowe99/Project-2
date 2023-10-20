@@ -1,15 +1,10 @@
 #include "mysync.h"
 
-//  RESEARCH SHOWS THAT USING PRIME-NUMBERS CAN IMPROVE PERFORMANCE
-//  c.f.  https://www.quora.com/Why-should-the-size-of-a-hash-table-be-a-prime-number
-
-//  --------------------------------------------------------------------
-
-//  FUNCTION hash_string() ACCEPTS A STRING PARAMETER,
-//  AND RETURNS AN UNSIGNED 32-BIT INTEGER AS ITS RESULT
-//
-//  see:  https://en.cppreference.com/w/c/types/integer
-
+/** Gets the hash index of a string.
+ *
+ * \param string The string we want the index of
+ * \return The index of the string
+*/
 uint32_t hash_string(char *string)
 {
     uint32_t hash = 0;
@@ -21,8 +16,10 @@ uint32_t hash_string(char *string)
     return hash;
 }
 
-//  ALLOCATE AND INITIALISE SPACE FOR A NEW HASHTABLE (AN ARRAY OF LISTS)
-//Add check to see if malloc is needed 
+/** Creates and allocates memory to a new hashtable and returns it 
+ *
+ * \return the hashtable
+*/
 HASHTABLE *hashtable_new(void)
 {
     HASHTABLE   *new = calloc(HASHTABLE_SIZE, sizeof(LIST *));
@@ -30,7 +27,14 @@ HASHTABLE *hashtable_new(void)
     return new;
 }
 
-//  ADD A NEW STRING TO A GIVEN HASHTABLE
+/** Adds a file and its info to a hashtable
+ *
+ * \param hashtable the hashtable we want to update
+ * \param filename the filename of the file we want to add
+ * \param mtime the last modification time of the file
+ * \param permissions the file permissions of the file
+ * \param dirname the directory that the file is located
+*/
 void hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t permissions, char* dirname)
 {
     uint32_t h   = hash_string(filename) % HASHTABLE_SIZE;
@@ -41,7 +45,12 @@ void hashtable_add(HASHTABLE *hashtable, char *filename, time_t mtime, mode_t pe
     } //mod time not being stored properly
 }
 
-//  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
+/** Checks if a file (string) is in a hashtable
+ *
+ * \param hashtable the hashtable to check
+ * \param filename The file we are trying to find
+ * \return true if file exists else false
+*/
 bool hashtable_find(HASHTABLE *hashtable, char *filename)
 {
     uint32_t h	= hash_string(filename) % HASHTABLE_SIZE;     // choose list
