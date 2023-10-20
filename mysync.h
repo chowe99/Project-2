@@ -118,7 +118,7 @@ extern HASHTABLE    *file_list;
 extern char         *strdup(const char *);
 
 //FUNCTIONS FROM globals.c
-
+//commment
 
 //FUNCTIONS FROM readDir.c
 extern int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs);
