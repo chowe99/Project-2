@@ -30,7 +30,6 @@ void copy_text_file(char destination[], char source[])
  * \param mode the permission to check
 */
 void print_permissions(mode_t mode) {
-    //printf("File Permissions: ");
 
     // Owner's permissions
     printf((mode & S_IRUSR) ? "r" : "-");
@@ -83,7 +82,6 @@ void setPermissions(char *source, char *dest) {
  *  \param dest the destination file
 */
 void setModTime(char *source, char *dest) {
-    // Path to the source file, change it to not be constant
     struct stat source_stat;
     if (stat(source, &source_stat) != 0) {
         perror("Error getting file mod time");

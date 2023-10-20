@@ -90,25 +90,18 @@ void list_print(LIST *list)
 */
 void arrayAdd(char *filename) {
     char* newFilename = malloc(MAXPATHLEN);
-    if (newFilename == NULL) {
-        fprintf(stderr, "Memory allocation error\n");
-        exit(EXIT_FAILURE);
-    }
-    // Copy the filename to the allocated memory
+    CHECK_ALLOC(newFilename);
+
     strncpy(newFilename, filename, MAXPATHLEN - 1);
     newFilename[MAXPATHLEN - 1] = '\0'; 
 
-    // Resize the array to accommodate the new filename
     filenames = realloc(filenames, nfiles * sizeof(char*));
-    if (filenames == NULL) {
-        fprintf(stderr, "Memory reallocation error\n");
-        exit(EXIT_FAILURE);
-    }
-    // Add the new filename to the array
+    CHECK_ALLOC(filenames);
     filenames[nfiles - 1] = newFilename;
 }
 
-/** Prints all elements of the array to stdout 
+/** 
+ * Prints all elements of the array to stdout 
 */
 void printArray() {
     for (int i = 0; i < nfiles; ++i) {
