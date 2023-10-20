@@ -53,6 +53,7 @@ extern HASHTABLE    *file_list;
 //FUNCTIONS IN GLOB2REGEX.C
 extern char *glob2regex(char *glob);
 extern bool is_match(char *filename, char *arr[], size_t num_items);
+extern bool skipEntry(char* filename);
 
 //FUNCTIONS IN HASHTABLE.C
 extern uint32_t hash_string(char *string);
@@ -71,7 +72,7 @@ extern void arrayAdd(char *filename);
 extern void printArray();
 
 //FUNCTIONS IN READDIR.C
-extern int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs);
+extern void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs);
 extern void sync_directories(HASHTABLE *hashtable, char *dirname); 
 extern void  printDir(char *dirname);
 extern void add_missing_dirs(const char *subdirectories, const char *parentdir);

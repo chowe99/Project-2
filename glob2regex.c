@@ -61,3 +61,12 @@ bool is_match(char *filename, char *arr[], size_t num_items) {
     }
     return false;
 }
+
+bool skipEntry(char* filename) {
+	if ((i_index > 0 && is_match(filename, i, i_index)) || (o_index > 0 && !is_match(filename, o, o_index)) ||
+		(!a && filename[0] == '.'))
+	{
+		return true;
+	}
+	return false;
+}
