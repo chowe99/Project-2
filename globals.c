@@ -71,7 +71,7 @@ void save_args(int argc, char *argv[]) {
     }
     argc -= optind;
     if (argc < 2) {
-        printf("More than one command line argument must be provided\n");
+        printf("Usage: ./mysync  [options]  directory1  directory2  [directory3  ...]\n");
         exit(EXIT_FAILURE);
     }
 }
