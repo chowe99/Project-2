@@ -10,3 +10,5 @@ readDir.o
 test*
 mydir2/
 globals.o
+dir1*
+seconddir*
