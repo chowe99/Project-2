@@ -269,7 +269,7 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
                 }
                 hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
                 // printf("ABS PATH: %s/%s\n", dirname, pathname);
-                nfiles++;
+
                 printf("current status:  \n");
                 printf("Printing arr:\n---\n");
                 printArray();
