@@ -60,6 +60,11 @@ void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs)
     DIR *dirp;
     struct dirent *dp;
     dirp = opendir(dirname);
+    if (!dirp)
+    {
+        printf("Directory doesn't exist\n");
+        exit(EXIT_FAILURE);
+    }
     CHECK_ALLOC(dirp);
 
     while ((dp = readdir(dirp)) != NULL)
