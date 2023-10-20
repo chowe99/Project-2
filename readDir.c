@@ -145,6 +145,44 @@ char *slash = strchr(path, '/');
     //printf("New path %s, new directory %s", path, dirname);
     //printf("New path %s, new directory %s", path, dirname);
 }
+char* get_dir(char *path) {
+    char *slash = strchr(path, '/');
+    
+    // If a slash is found, calculate the length of the first directory
+    size_t length = (slash != NULL) ? (size_t)(slash - path) : strlen(path);
+    // Allocate memory for the new string
+    char *newpath = (char *)malloc(length + 1);
+    if (newpath == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    
+    // Copy the first directory to the new string
+    strncpy(newpath, path, length);
+    newpath[length] = '\0'; // Null-terminate the string
+    
+    return newpath;
+}
+
+char* get_path(char *path) {
+    char *slash = strchr(path, '/');
+    
+    // If a slash is found, move the pointer past the first directory
+    if (slash != NULL) {
+        path = slash + 1;
+    }
+    
+    // Allocate memory for the new string
+    char *newpath = strdup(path);
+    if (newpath == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    
+    return newpath;
+}
+
+
 
 /** takes a hashtable and saves a directory to it
  * if the directory is not already present.
@@ -193,8 +231,12 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
         if (strlen(parentdirs) > 0) {
             sprintf(pathname, "%s/%s", dirname, dp->d_name);
             printf("Original pathname: %s\n", pathname);
+            char* test;
+            char* fullpath;
+            test=get_dir(pathname);
+            fullpath=get_path(pathname);
+            printf("Test path: %s, test full path %s\n", test, fullpath);
             remove_first_directory(pathname, dirname);
-            printf("modified pathname %s\n", pathname);
             //printf("WITH PARENTDIR: %s\n", pathname);
             
         } else {
@@ -206,16 +248,16 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
                 //change print message 
                 printf("%-10s\tneeds to be synchronized\n", pathname);
             } else {
-                //abs path is wrong 
-                //printf("ABS PATH: %s/%s\n", dirname, pathname);
+                // abs path is wrong
+                // printf("ABS PATH: %s/%s\n", dirname, pathname);
                 printf("File to be added: %s, directory %s\n", pathname, dirname);
                 hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
-                nfiles+=1;
+                nfiles += 1;
                 arrayAdd(pathname);
-                                printf("current status:  \n");
-                    printf("Printing arr:\n---\n");
-    printArray();
-    printf("---\n");
+                printf("current status:  \n");
+                printf("Printing arr:\n---\n");
+                printArray();
+                printf("---\n");
             }
         } else {
             //If the current file has been modified more recently, then add that 
@@ -226,12 +268,12 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
                      printf("name of file %s\n", pathname);
                 }
                 hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
-                //printf("ABS PATH: %s/%s\n", dirname, pathname);
+                // printf("ABS PATH: %s/%s\n", dirname, pathname);
                 nfiles++;
                 printf("current status:  \n");
-                    printf("Printing arr:\n---\n");
-    printArray();
-    printf("---\n");
+                printf("Printing arr:\n---\n");
+                printArray();
+                printf("---\n");
                 // printf("File %s added to list with dir: %s\n", pathname, dirname);
                 //printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
             }

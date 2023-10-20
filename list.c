@@ -47,7 +47,7 @@ LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirn
     CHECK_ALLOC(new->file_name);
     new->modification = mtime;
     new->permissions = permissions;
-    new->dir_name = dirname;
+    new->dir_name = strdup(dirname);
     new->next       =  NULL;
     return new;
 }
