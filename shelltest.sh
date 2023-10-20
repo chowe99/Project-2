@@ -4,12 +4,12 @@ rm -rf dir1
 mkdir dir1
 date > dir1/file1
 cal  > dir1/file2
-#echo "new" > dir1/file10
+echo "new" > dir1/file3
 #
 sleep 1
 mkdir dir1/dir2
-ls   > dir1/dir2/file3
-#echo "NEWEST" > dir1/dir2/file10
+# ls   > dir1/dir2/file3
+echo "NEWEST" > dir1/dir2/file3
 #
 echo "before syncing:"
 tree dir1
@@ -26,8 +26,8 @@ cat dir1/file1
 cat dir1/dir2/file1
 printf "\n"
 printf "Output should be\nNEWEST\nNEWEST\ngot:\n"
-cat dir1/file10
-cat dir1/dir2/file10
+cat dir1/file3
+cat dir1/dir2/file3
 
 #
 rm -rf dir1
