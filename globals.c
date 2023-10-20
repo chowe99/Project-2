@@ -24,6 +24,11 @@ HASHTABLE   *file_list  = NULL;
 void save_args(int argc, char *argv[]) {
     int c;
     argc -= optind;
+    if (argc < 3) {
+        printf("More than one command line argument must be provided\n");
+        exit(EXIT_FAILURE);
+    }
+
     while ((c = getopt(argc, argv, OPTS)) != -1) 
     {
         switch (c) 
