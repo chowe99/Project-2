@@ -1,11 +1,4 @@
 #include "mysync.h"
-#include <asm-generic/errno-base.h>
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/param.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 void add_missing_dirs(const char *subdirectories, const char *parentdir) {
 

@@ -14,6 +14,7 @@
 #include <time.h>
 #include <fcntl.h>
 #include <utime.h>
+#include <asm-generic/errno-base.h>
 
 #define	HASHTABLE_SIZE		997
 
