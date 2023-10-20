@@ -79,7 +79,7 @@ extern void setModTime(char *source, char *dest);
 
 
 //FUNCTIONS IN GLOBALS.C
-extern int save_args(int argc, char *argv[]);
+extern void save_args(int argc, char *argv[]);
 
 
 

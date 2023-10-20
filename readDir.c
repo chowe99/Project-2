@@ -7,45 +7,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-//check if / in name, then add missing dir 
-//    char *slashPosition = strchr(inputString, '/');
-    //if (slashPosition != NULL)
-
-void add_missing_dirs(char *parentdir, char *subdir){
-    //printf("MISSING DIRECTORIES CALL: \n");
-    if (strstr(subdir, "/")) {
-        //printf("trynna add %s\n to %s\n", subdir, parentdir);
-        char *directory_list;
-        directory_list = strtok(subdir, "/");
-        //printf("Directory list created %s\n", directory_list);
-        int count = 0;
-
-        // get number of directories nested
-        while (directory_list != NULL) {
-            count++;
-            //printf("DIRECTORY: %s\n", directory_list);
-            directory_list = strtok(NULL, "/");
-        }
-        // remove file from dirlist
-        count--;
-        directory_list = strtok(subdir, "/");
-        char fullpath[MAXPATHLEN];
-        sprintf(fullpath, "%s/%s", parentdir, directory_list);
-        for (size_t i = 0; i<count; i++) {
-            //printf("DIRECTORY ADDED: %s\n", fullpath);
-            if (mkdir(fullpath, 0777) == 0 || errno == EEXIST){
-                //printf("Successfully made %s\n", fullpath);
-                strcat(fullpath, "/");
-                strcat(fullpath, directory_list);
-            }
-            directory_list = strtok(NULL, "/");
-        }
-
-    }
-
-}
-
-void add_missing_dirs1(const char *subdirectories, const char *parentdir) {
+void add_missing_dirs(const char *subdirectories, const char *parentdir) {
 
     char *subdirs_copy = strdup(subdirectories);
     char *last_slash = strrchr(subdirs_copy, '/');
@@ -169,11 +131,7 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
         if (strlen(parentdirs) > 0) {
             sprintf(pathname, "%s/%s", dirname, dp->d_name);
             printf("Original pathname: %s\n", pathname);
-            char* test;
-            char* fullpath;
-            test=get_dir(pathname);
-            fullpath=get_path(pathname);
-            printf("Test path: %s, test full path %s\n", test, fullpath);
+            
             remove_first_directory(pathname, dirname);
             //printf("WITH PARENTDIR: %s\n", pathname);
             
@@ -241,7 +199,7 @@ void sync_directories(HASHTABLE *hashtable, char *dirname) {
             char *isDirectory = strchr(current->file_name, '/');
             //If filename contains slash 
             if (isDirectory != NULL) {
-            add_missing_dirs1(current->file_name, dirname);
+            add_missing_dirs(current->file_name, dirname);
             printf("after syncing missing directories: \n ");
             printf("Current directory name is %s, current file name is %s\n", current->dir_name, current->file_name);
             }
