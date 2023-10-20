@@ -47,7 +47,7 @@ void copy_text_file(char destination[], char source[])
     if(fp_in != NULL && fp_out != NULL) {
         char    line[BUFSIZ];
         while( fgets(line, sizeof line, fp_in) != NULL) { 
-          //printf("%s", line); 
+          printf("Line just copied %s\n", line); 
             if(fputs(line, fp_out) == EOF) {
                 //printf("error copying file\n");
                 exit(EXIT_FAILURE);

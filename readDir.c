@@ -69,18 +69,23 @@ int save_args(int argc, char *argv[]) {
     return argc;
 }
 
+//check if / in name, then add missing dir 
+//    char *slashPosition = strchr(inputString, '/');
+    //if (slashPosition != NULL)
 
 void add_missing_dirs(char *parentdir, char *subdir){
+    //printf("MISSING DIRECTORIES CALL: \n");
     if (strstr(subdir, "/")) {
-        printf("trynna add %s\n to %s\n", subdir, parentdir);
+        //printf("trynna add %s\n to %s\n", subdir, parentdir);
         char *directory_list;
         directory_list = strtok(subdir, "/");
+        //printf("Directory list created %s\n", directory_list);
         int count = 0;
 
         // get number of directories nested
         while (directory_list != NULL) {
             count++;
-            printf("DIRECTORY: %s\n", directory_list);
+            //printf("DIRECTORY: %s\n", directory_list);
             directory_list = strtok(NULL, "/");
         }
         // remove file from dirlist
@@ -89,9 +94,9 @@ void add_missing_dirs(char *parentdir, char *subdir){
         char fullpath[MAXPATHLEN];
         sprintf(fullpath, "%s/%s", parentdir, directory_list);
         for (size_t i = 0; i<count; i++) {
-            printf("DIRECTORY ADDED: %s\n", fullpath);
+            //printf("DIRECTORY ADDED: %s\n", fullpath);
             if (mkdir(fullpath, 0777) == 0 || errno == EEXIST){
-                printf("Successfully made %s\n", fullpath);
+                //printf("Successfully made %s\n", fullpath);
                 strcat(fullpath, "/");
                 strcat(fullpath, directory_list);
             }
@@ -102,6 +107,44 @@ void add_missing_dirs(char *parentdir, char *subdir){
 
 }
 
+void add_missing_dirs1(const char *subdirectories, const char *parentdir) {
+
+    char *subdirs_copy = strdup(subdirectories);
+    char *last_slash = strrchr(subdirs_copy, '/');
+    if (last_slash != NULL) {
+        *last_slash = '\0';
+    }
+        //printf("Sub dir is %s and parent dir is %s\n", subdirs_copy, parentdir);
+    char *token = strtok(subdirs_copy, "/");
+    char path[PATH_MAX]; // Assuming PATH_MAX is defined in your environment, it represents the maximum length of a file path
+    // Iterate through subdirectories and create missing directories
+    while (token != NULL) {
+        snprintf(path, sizeof(path), "%s/%s", parentdir, token);
+        struct stat st = {0};
+        printf("checking path %s\n", path);
+        if (stat(path, &st) == -1) {
+            // Directory does not exist, create it
+            printf("Path %s doesn't exist, being creating\n", path);
+            mkdir(path, 0777);
+            //printf("Created directory: %s\n", path);
+        }
+        parentdir = path; // Update parentdir for the next iteration
+        token = strtok(NULL, "/");
+    }
+    free(subdirs_copy); // Free the dynamically allocated memory
+}
+
+void remove_first_directory(char *path, char *dirname) {
+    char *slash = strchr(path, '/');
+    if (slash != NULL) {
+        size_t length = slash - path;
+        strncpy(dirname, path, length);
+        dirname[length] = '\0';  // Null-terminate the directory string
+        memmove(path, slash + 1, strlen(slash));   // Move characters after slash one position to the left
+    }
+    //printf("New path %s, new directory %s", path, dirname);
+}
+
 /** takes a hashtable and saves a directory to it
  * if the directory is not already present.
  *
@@ -110,7 +153,6 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
     printf("reading: %s\n", dirname);
     DIR *dirp;
     struct dirent *dp;
-
     dirp = opendir(dirname);
     if (dirp == NULL) {
         perror(dirname);
@@ -137,38 +179,35 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
             perror(pathname);
             exit(EXIT_FAILURE);
         }
-        // printf("%-10s\tm_tim: %-10ld\tst_mode: %-10u\n", pathname, info.st_mtim.tv_sec, info.st_mode);
-
         if (S_ISDIR(info.st_mode)) {
             if (r) {
+                if(!a) {
                 if (strcmp(dp->d_name, ".") == 0) {
                     continue;
                 }
-                if (read_dir(hashtable, pathname, dp->d_name) == 0) {
-                    continue;
                 }
-                // printf("pathname is %s\n", pathname);
-                continue;
-            } else {
-                continue;
-            }
-        } else {
-            file_count++;
+                    read_dir(hashtable, pathname, dp->d_name);
         }
-
+        } else {
         if (strlen(parentdirs) > 0) {
-            sprintf(pathname, "%s/%s", parentdirs, dp->d_name);
-            printf("WITH PARENTDIR: %s\n", pathname);
+            sprintf(pathname, "%s/%s", dirname, dp->d_name);
+            printf("Original pathname: %s\n", pathname);
+            remove_first_directory(pathname, dirname);
+            printf("modified pathname %s\n", pathname);
+            //printf("WITH PARENTDIR: %s\n", pathname);
+            
         } else {
             sprintf(pathname, "%s", dp->d_name);
-            printf("WITHOUT PARENTDIR: %s\n", pathname);
+            //printf("WITHOUT PARENTDIR: %s\n", pathname);
         }
         if (!hashtable_find(hashtable, pathname)) {
             if (n) {
                 //change print message 
                 printf("%-10s\tneeds to be synchronized\n", pathname);
             } else {
-                printf("ABS PATH: %s/%s\n", dirname, pathname);
+                //abs path is wrong 
+                //printf("ABS PATH: %s/%s\n", dirname, pathname);
+                printf("File to be added: %s, directory %s\n", pathname, dirname);
                 hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
                 nfiles+=1;
                 arrayAdd(pathname);
@@ -182,33 +221,49 @@ int read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs) {
                     // printf("name of file %s\n", pathname);
                 }
                 hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
-                printf("ABS PATH: %s/%s\n", dirname, pathname);
+                //printf("ABS PATH: %s/%s\n", dirname, pathname);
                 nfiles++;
                 // printf("File %s added to list with dir: %s\n", pathname, dirname);
                 //printf("newdir: %s\n", hashtable[hash_string(dp->d_name)%HASHTABLE_SIZE]->dir_name);
             }
         }
     }
+    }
     closedir(dirp);
     return file_count;
 }
+    
+    
 //Notes: need to close directory afterwards
 void sync_directories(HASHTABLE *hashtable, char *dirname) {
     for (int i = 0; i < nfiles; ++i) {
         printf("File %d: %s\n", i + 1, filenames[i]);
         LIST *current = file_list[hash_string(filenames[i]) % HASHTABLE_SIZE];
         if(current != NULL) {
-            printf("current location: %s/%s\n", current->dir_name, current->file_name);
+            //printf("current location: %s/%s\n", current->dir_name, current->file_name);
             char source[MAXPATHLEN];
             char destination[MAXPATHLEN];
-
-            add_missing_dirs(dirname, current->file_name);
-
+//potentially include if dir, or if / exists in filename, then call add_missing_dir 
+//if dir doesn't exist with full path (this includes dirname), then create it. once dir subpath created
+//printf("What's been passed to missing directories: %s, %s\n", dirname, current->file_name);
+//    char *slashPosition = strchr(inputString, '/');
+    //if (slashPosition != NULL)
+            char *isDirectory = strchr(current->file_name, '/');
+            printf("Current directory name is %s, current file name is %s\n", current->dir_name, current->file_name);
+            //If filename contains slash 
+            if (isDirectory != NULL) {
+            add_missing_dirs1(current->file_name, dirname);
+            printf("after syncing missing directories: \n ");
+            printf("Current directory name is %s, current file name is %s\n", current->dir_name, current->file_name);
+            }
             sprintf(source, "%s/%s", current->dir_name, current->file_name);
             sprintf(destination, "%s/%s", dirname, current->file_name);
-            // if (strcmp(source, destination) == 0) {
-            //     continue;
-            // }
+            //need to compare full path 
+            if (strcmp(source, destination) == 0) {
+                 continue;
+             }
+             printf("Copying %s to %s\n", source, destination);
+             //sourceis what is getting messed up 
             copy_text_file(destination, source);
 
             if(v) {

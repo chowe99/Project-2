@@ -102,7 +102,7 @@ void arrayAdd(char *filename) {
 
 void printArray() {
             for (int i = 0; i < nfiles; ++i) {
-            printf("File %d: %s\n", i + 1, filenames[i]);
+            printf("File %d: %s \n", i + 1, filenames[i]);
         }
     }
 
