@@ -13,7 +13,7 @@ char        **i = NULL;
 size_t      i_index = 0;
 int         nfiles =0;
 char**      filenames = NULL;
-HASHTABLE   *file_list;
+HASHTABLE   *file_list = NULL;
 
 /** Gets the command line arguments and saves them to global 
  *  variables.
