@@ -46,6 +46,8 @@ typedef struct _list {
 } LIST;
 
 extern char** filenames;
+typedef	LIST        *HASHTABLE;
+extern HASHTABLE    *file_list;
 
 //FUNCTIONS IN GLOB2REGEX.C
 extern char *glob2regex(char *glob);
@@ -102,8 +104,7 @@ extern void save_args(int argc, char *argv[]);
 extern int          compare_mtime_descending(const void *v1, const void *v2);
 //FROM hashtable
 //  WE DEFINE A HASHTABLE AS A (WILL BE, DYNAMICALLY ALLOCATED) ARRAY OF LISTs
-typedef	LIST        *HASHTABLE;
-extern HASHTABLE    *file_list;
+
 //  THESE FUNCTIONS ARE DECLARED HERE, AND DEFINED IN hashtable.c :
 
 //  ALLOCATE SPACE FOR A NEW HASHTABLE (AND ARRAY OF LISTS)
