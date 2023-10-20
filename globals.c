@@ -27,7 +27,6 @@ void save_args(int argc, char *argv[]) {
 
     while ((c = getopt(argc, argv, OPTS)) != -1) 
     {
-
         switch (c) 
         {
             case 'a':
