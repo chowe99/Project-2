@@ -112,6 +112,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs)
                     if(v) {
                     printf("File to be added: %s, directory %s\n", pathname, dirname);
                     }
+                    if (skipEntry(dp->d_name)) {continue;}
                     hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
                     nfiles += 1;
                     arrayAdd(pathname);
@@ -123,6 +124,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs)
                     {
                         printf("Updating hashlist with newest element:\n%svs\n%s\n", ctime(&hashtable[hash_string(pathname) % HASHTABLE_SIZE]->modification), ctime(&info.st_mtim.tv_sec));
                     }
+                    if (skipEntry(dp->d_name)) {continue;}
                     hashtable_add(hashtable, pathname, info.st_mtim.tv_sec, info.st_mode, dirname);
             }
         }
