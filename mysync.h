@@ -1,3 +1,7 @@
+//  CITS2002 Project 2 2023
+//  Student1:   23340238   RHIANNA HEPBURN
+//  Student2:   22575612   CODY HOWE
+
 #define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdbool.h>

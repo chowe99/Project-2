@@ -72,6 +72,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs)
         if (stat(pathname, &info) != 0)
         {
             perror(pathname);
+            printf("Directory doesn't exist\n");
             exit(EXIT_FAILURE);
         }
         if (S_ISDIR(info.st_mode))
