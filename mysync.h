@@ -46,7 +46,7 @@ typedef struct _list {
     struct _list    *next;
 } LIST;
 
-extern char** filenames;
+extern char** filenames; //Pointer to an array of filenames that appear in the hashtable 
 typedef	LIST        *HASHTABLE;
 extern HASHTABLE    *file_list;
 

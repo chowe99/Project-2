@@ -1,19 +1,21 @@
 #include "mysync.h"
 
 
-//  ON LINUX WE NEED TO PROTOTYPE THE (NON-STANDARD) strdup() FUNCTION 
-//  WHY?  https://stackoverflow.com/questions/32944390/what-is-the-rationale-for-not-including-strdup-in-the-c-standard
-
-//  ---------------------------------------------------------------------
-
-//  'CREATE' A NEW, EMPTY LIST - JUST A NULL POINTER
+/**
+ * Creates a new ,empty list
+ * \returns: NULL pointer
+*/
 LIST *list_new(void)
 {
     return NULL;
 }
 
-//  DETERMINE IF A REQUIRED ITEM (A STRING) IS STORED IN A GIVEN LIST
-//Will be used to see if directory exists in the list 
+/**
+ * Determines if a given file name exists in the list 
+ * \param: LIST list: the list to be searched
+ * \param: wanted: pointer to the filename to be searched for
+ * \return: true if the file was found, false otherwise
+*/
 bool list_find(LIST *list, char *wanted)
 {
     while(list != NULL) {
@@ -25,20 +27,15 @@ bool list_find(LIST *list, char *wanted)
     return false;
 }
 
-bool dir_find(LIST *list, char *wanted)
-{
-    while(list != NULL) {
-	if(strcmp(list->dir_name, wanted) == 0) {
-	    return true;
-	}
-	list	= list->next;
-    }
-    return false;
-}
-
-
-//  ALLOCATE SPACE FOR A NEW LIST ITEM, TESTING THAT ALLOCATION SUCCEEDS
-//Must change, not a list of strings, list of structs 
+/**
+ * Allocates space for a new list item
+ * \param: filename: filename of the file to be added
+ * \param: mtime: modification time of the file
+ * \param: permissions: permissions of the file
+ * \param: dirname: Top level directory of the file 
+ * \return: returns the new list item 
+*/
+ 
 LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirname)
 {
     LIST *new       = calloc(1, sizeof(LIST));
@@ -52,10 +49,18 @@ LIST *list_new_item(char* filename, time_t mtime, mode_t permissions, char* dirn
     return new;
 }
 
-//  ADD A NEW (STRING) ITEM TO AN EXISTING LIST
+/**
+ * Adds a new list item to a given list 
+ * \param: filename: filename of the file to be added
+ * \param: list: the list to add the item too
+ * \param: mtime: modification time of the file
+ * \param: permissions: permissions of the file
+ * \param: dirname: Top level directory of the file 
+ * \return: returns the updated list  
+*/
 LIST *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, char* dirname)
 {
-    //check if null, if so create null pointer to point to 
+
         LIST *new  = list_new_item(filename, mtime, permissions,dirname );
         new->next   = list;
         list_print(new);
@@ -63,7 +68,9 @@ LIST *list_add(LIST *list, char* filename, time_t mtime, mode_t permissions, cha
 
 }
 
-//  PRINT EACH ITEM (A STRING) IN A GIVEN LIST TO stdout
+/**
+ * Print each item of the given list to stdout
+*/
 void list_print(LIST *list)
 {
     if(list != NULL) {
@@ -78,9 +85,11 @@ void list_print(LIST *list)
     }
 }
 
-
+/**
+ * Adds a new filename to the array of names that have been added to the hashtable 
+ * \param: filename to be added
+*/
 void arrayAdd(char *filename) {
-        // Allocate memory for the new filename
         char* newFilename = malloc(MAXPATHLEN);
         if (newFilename == NULL) {
             fprintf(stderr, "Memory allocation error\n");
@@ -88,7 +97,7 @@ void arrayAdd(char *filename) {
         }
         // Copy the filename to the allocated memory
         strncpy(newFilename, filename, MAXPATHLEN - 1);
-        newFilename[MAXPATHLEN - 1] = '\0'; // Ensure null-termination
+        newFilename[MAXPATHLEN - 1] = '\0'; 
 
         // Resize the array to accommodate the new filename
         filenames = realloc(filenames, nfiles * sizeof(char*));
@@ -99,7 +108,9 @@ void arrayAdd(char *filename) {
         // Add the new filename to the array
         filenames[nfiles - 1] = newFilename;
     }
-
+/**
+ * Prints all elements of the array to stdout
+*/
 void printArray() {
             for (int i = 0; i < nfiles; ++i) {
             printf("File %d: %s \n", i + 1, filenames[i]);

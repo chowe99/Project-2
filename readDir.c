@@ -14,7 +14,6 @@ void add_missing_dirs(const char *subdirectories, const char *parentdir) {
 
     snprintf(path, sizeof(path), "%s/", parentdir);
     while (token != NULL) {
-
         strcat(path, token);
         struct stat st = {0};
         printf("checking path %s\n", path);
