@@ -1,4 +1,5 @@
 #include "mysync.h"
+#include <stdio.h>
 
 //to be filled in more
 //allocating space and initial values for global variables 
@@ -23,14 +24,10 @@ HASHTABLE   *file_list  = NULL;
 */
 void save_args(int argc, char *argv[]) {
     int c;
-    argc -= optind;
-    if (argc < 3) {
-        printf("More than one command line argument must be provided\n");
-        exit(EXIT_FAILURE);
-    }
 
     while ((c = getopt(argc, argv, OPTS)) != -1) 
     {
+
         switch (c) 
         {
             case 'a':
@@ -73,6 +70,12 @@ void save_args(int argc, char *argv[]) {
             default:
                 break;
         }
+    }
+    argc -= optind;
+    printf("%d %d\n", argc, optind);
+    if (argc < 2) {
+        printf("More than one command line argument must be provided\n");
+        exit(EXIT_FAILURE);
     }
 }
 
