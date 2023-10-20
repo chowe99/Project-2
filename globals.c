@@ -71,7 +71,6 @@ void save_args(int argc, char *argv[]) {
         }
     }
     argc -= optind;
-    printf("%d %d\n", argc, optind);
     if (argc < 2) {
         printf("More than one command line argument must be provided\n");
         exit(EXIT_FAILURE);
