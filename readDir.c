@@ -69,8 +69,6 @@ void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs)
 
     while ((dp = readdir(dirp)) != NULL)
     {
-        if (skipEntry(dp->d_name)) {continue;}
-
         struct stat info;
         char pathname[MAXPATHLEN];
         sprintf(pathname, "%s/%s", dirname, dp->d_name);
@@ -94,6 +92,7 @@ void read_dir(HASHTABLE *hashtable, char *dirname, char *parentdirs)
         }
         else
         {
+            if (skipEntry(dp->d_name)) {continue;}
             if (strlen(parentdirs) > 0)
             {
                 sprintf(pathname, "%s/%s", dirname, dp->d_name);
