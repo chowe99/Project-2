@@ -1,5 +1,4 @@
 #include "mysync.h"
-#include <stdio.h>
 
 //to be filled in more
 //allocating space and initial values for global variables 
